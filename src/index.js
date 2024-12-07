@@ -8,6 +8,7 @@ import Auth from './pages/Auth';
 import Account from './pages/Account';
 import Mylist from './pages/Mylist';
 import Subscription from './pages/Subscription.js';
+import Watch from './pages/Watch.js';
 import Errorpage from './pages/Errorpage.js';
 const router = createBrowserRouter([
   {
@@ -26,8 +27,14 @@ const router = createBrowserRouter([
     errorElement: <Errorpage/>
   },
   {
-    path: "/Search",
+    path: "/Subscription",
     element: <Subscription/>,
+    errorElement: <Errorpage/>
+  }, 
+   
+  {
+    path: "/watch/:id",
+    element: <Watch/>,
     errorElement: <Errorpage/>
   },
   {

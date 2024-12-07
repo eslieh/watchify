@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import Search from './Search';
 
-function Topbar() {
+function Topbar({ profile }) {
   const navigate = useNavigate(); // Initialize the navigate function
 
   const handleProfileClick = () => {
@@ -11,6 +11,7 @@ function Topbar() {
   const homeNav = () => {
     navigate('/'); // Navigate to the account page
   };
+  const profileUrl = profile;
 
   return (
     <div className='topbar'>
@@ -21,7 +22,7 @@ function Topbar() {
           {/* Call handleProfileClick when the image is clicked */}
           <img
             className='userimge'
-            src='https://lh3.googleusercontent.com/a/ACg8ocLqd8zB9T5PnAMDbUdKonY5ij7iEMmJQMZpPqn6Q4dDCflZMsqo=s288-c-no'
+            src={profileUrl}
             alt='Profile'
             onClick={handleProfileClick}
             style={{ cursor: 'pointer' }} // Add cursor pointer to indicate it's clickable

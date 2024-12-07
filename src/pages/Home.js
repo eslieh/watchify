@@ -1,26 +1,28 @@
-import React, { useEffect } from 'react';
-import Topbar from '../components/Topbar';
-import Barner from '../components/Barner'
-import Trending from '../components/Movielists';
-import Cookies from 'js-cookie'; // Import js-cookie for cookie management
-import Card from '../components/Moviecard';
+import React, { useEffect } from "react";
+import Topbar from "../components/Topbar";
+import Barner from "../components/Barner";
+import Trending from "../components/Movielists";
+import Cookies from "js-cookie"; // Import js-cookie for cookie management
+import Card from "../components/Moviecard";
 function Index() {
-//   useEffect(() => {
-//     // Check if the "username" cookie is set
-//     const username = Cookies.get('username'); // You can replace 'username' with the actual cookie name you are using
-//     console.log(username);
-//     if (!username) {
-//       // If no cookie is set, redirect to the /auth page
-//       window.location.href = "/auth";
-//     }
-//   }, []); // Empty dependency array ensures this runs only once after the component mounts
+  // Function to check if the user is logged in by checking sessionStorage or localStorage
+  const userId =
+    sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
+  const userProfile =
+    sessionStorage.getItem("profile") || localStorage.getItem("profile");
+
+  // If user data is not available, redirect to the auth page
+  if (!userId || !userProfile) {
+    window.location.href = "/auth"; // Redirect to the login/auth page
+  }
+  console.log(userProfile);
 
   return (
-    <div className='home'>
-        <Topbar/>
-        <Barner/>
-        <Trending/>
-        {/* <Card/> */}
+    <div className="home">
+      <Topbar profile={userProfile}/>
+      <Barner />
+      <Trending />
+      {/* <Card/> */}
     </div>
   );
 }
