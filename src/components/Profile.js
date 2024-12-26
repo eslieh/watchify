@@ -7,7 +7,7 @@ function Profile({ user }) {
 
   // Fetch the username when the component mounts
   useEffect(() => {
-    fetch(`http://localhost/watchify/userdata/username.php?user_id=${userId}`, {
+    fetch(`https://fueldash.net/watchify/userdata/username.php?user_id=${userId}`, {
       method: "GET", // Assuming the API is a GET request
       headers: {
         "Content-Type": "application/json",

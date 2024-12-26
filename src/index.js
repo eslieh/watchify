@@ -6,10 +6,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Index from './pages/Home.js';
 import Auth from './pages/Auth';
 import Account from './pages/Account';
-import Mylist from './pages/Mylist';
+import Activity from './pages/Activity';
 import Subscription from './pages/Subscription.js';
 import Watch from './pages/Watch.js';
 import Errorpage from './pages/Errorpage.js';
+import Search from './pages/Search.js';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,8 +39,13 @@ const router = createBrowserRouter([
     errorElement: <Errorpage/>
   },
   {
-    path: "/Mylist",
-    element: <Mylist/>,
+    path: "/Activity",
+    element: <Activity/>,
+    errorElement: <Errorpage/>
+  },
+  {
+    path: "/Search",
+    element: <Search/>,
     errorElement: <Errorpage/>
   }
 ])

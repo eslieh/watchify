@@ -39,7 +39,7 @@ function Moviecard({ id }) {
     
       try {
         // Fetch the user's movie list with both user_id and movie_id in the URL as query parameters
-        const response = await fetch(`http://localhost/watchify/userdata/mylist.php?action=check&user_id=${userId}&movie_id=${id}`);
+        const response = await fetch(`https://fueldash.net/watchify/userdata/mylist.php?action=check&user_id=${userId}&movie_id=${id}`);
         
         // Check if the response is ok (status 200)
         if (!response.ok) {
@@ -81,10 +81,15 @@ function Moviecard({ id }) {
     try {
 
       console.log(userId)
-      const postData = { user_id: userId, movie_id: id }
+      const postData = {
+        user_id: userId,
+        movie_id: id,
+        title: movie.title, // Include the movie title
+        thumb_url: `https://image.tmdb.org/t/p/w500${movie.poster_path}`, // Include the thumbnail URL
+      };
       console.log(postData)
       // Make a POST request to your PHP backend to add or remove the movie
-      const response = await fetch(`http://localhost/watchify/userdata/mylist.php?action=${action}&user_id=${userId}&movie_id=${id}`, {
+      const response = await fetch(`https://fueldash.net/watchify/userdata/mylist.php?action=${action}&user_id=${userId}&movie_id=${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

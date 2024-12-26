@@ -9,7 +9,7 @@ function Login() {
     event.preventDefault(); // Prevent the default form submission
 
     try {
-      const response = await fetch("http://localhost/watchify/auth/login.php", {
+      const response = await fetch("https://fueldash.net/watchify/auth/login.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

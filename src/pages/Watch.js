@@ -29,14 +29,42 @@ function Watch() {
         }
         const data = await response.json();
         setMovie(data); // Store movie details
+
+        // Post watch data to backend
+        postWatchData(data);
       } catch (error) {
         console.error("Error fetching movie details:", error);
       }
     };
 
     fetchMovieDetails();
+  }, [id, userId, userProfile]);
 
-    // Override fetch to block specific ad-related requests
+  const postWatchData = async (movieData) => {
+    const watchData = {
+      user_id: userId,
+      movie_id: movieData.id,
+      length: movieData.runtime || 0, // Assume runtime is in minutes
+      movie_thumb: `https://image.tmdb.org/t/p/w500${movieData.poster_path}`, // TMDb poster URL
+    };
+
+    try {
+      const response = await fetch(`https://fueldash.net/userdata/streamdata.php`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(watchData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to post watch data to backend");
+      }
+
+      console.log("Watch data posted successfully:", await response.json());
+    } catch (error) {
+      console.error("Error posting watch data:", error);
+    }
     const originalFetch = window.fetch;
     window.fetch = async (...args) => {
       const url = args[0];
@@ -51,7 +79,7 @@ function Watch() {
     return () => {
       window.fetch = originalFetch;
     };
-  }, [id, userId, userProfile]);
+  };
 
   if (!movie) {
     return <div>Loading...</div>; // Show loading state while movie details are fetched
@@ -63,19 +91,12 @@ function Watch() {
       <div className="watch-container">
         <iframe
           className="player"
-          src={`https://www.2embed.cc/embed/${movie.id}`} // For example, you can embed the trailer
+          src={`https://www.2embed.cc/embed/${movie.id}`} // Embed player
           title="Movie Trailer"
-          sandbox="allow-scripts allow-same-origin" // Restrict iframe behavior
+          // sandbox="allow-scripts allow-same-origin" // Restrict iframe behavior
           allowFullScreen
         ></iframe>
       </div>
-      <p className="ad-block-note">
-        For a better experience, we recommend using an ad-blocker like{" "}
-        <a href="https://ublockorigin.com/" target="_blank" rel="noopener noreferrer">
-          uBlock Origin
-        </a>
-        .
-      </p>
     </>
   );
 }

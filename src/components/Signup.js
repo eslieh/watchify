@@ -17,7 +17,7 @@ function Signup() {
     }
   
     try {
-      const response = await fetch("http://localhost/watchify/auth/signup.php", {
+      const response = await fetch("https://fueldash.net/watchify/auth/signup.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

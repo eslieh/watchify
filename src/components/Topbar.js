@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import Search from './Search';
+import Navbar from './Navbar';
 
 function Topbar({ profile }) {
   const navigate = useNavigate(); // Initialize the navigate function
@@ -29,6 +30,7 @@ function Topbar({ profile }) {
           />
         </div>
       </div>
+      <Navbar/>
     </div>
   );
 }

@@ -280,10 +280,11 @@ span.usernamejk {
   font-size: 45px;
   font-weight: 800;
 }
+
 img.profilecd {
   width: 77px;
   height: 77px;
-  border-radius: 148px;
+  border-radius: 14px;
   object-fit: cover;
 }
 .detailsjnk {
@@ -487,7 +488,82 @@ button.cancel-btn:hover{
   transition: all ease 0.8s;
   cursor: pointer;
 }
+
+.nav_bar {
+  position: fixed;
+  left: 0;
+  background: transparent;
+  top: 0;
+  height: 100%;
+  display: grid
+;
+  place-content: center;
+  width: 6%;
+}
+.nav_bar .links.jkd{
+  display: none;
+  transition: all ease 0.8s;
+}
+.nav_bar:hover .links.jkd {
+  display: grid;
+  transition: all ease 0.8s;
+}
+
+.links.jkd {
+  background: #76767694;
+  padding: 12px;
+  font-size: 19px;
+  display: grid
+;
+  gap: 14px;
+  border-radius: 41px;
+  backdrop-filter: blur(1px);
+  box-shadow: 0 0 15px black;
+}
+.mylists {
+  padding-top: 18vh;
+}
+h2.hio {
+    padding-left: 3vh;
+}
 @media screen and (max-width: 600px) {
+  .nav_bar {
+    position: fixed;
+    left: 0;
+    background: transparent;
+    top: inherit;
+    height: 8%;
+    display: flex
+;
+    width: 100%;
+    bottom: 0;
+    justify-content: center;
+    align-items: end;
+    padding: 8px;
+}
+.nav_bar .links.jkd {
+  display: flex
+;
+  transition: all ease 0.8s;
+}
+  .nav_bar:hover .links.jkd {
+    display: flex;
+    transition: all ease 0.8s;
+  }
+  
+  .links.jkd {
+    background: #76767694;
+    padding: 12px;
+    font-size: 19px;
+    display: flex
+;
+    gap: 14px;
+    border-radius: 41px;
+    backdrop-filter: blur(1px);
+    box-shadow: 0 0 15px black;
+    width: 48%;
+    justify-content: space-around;
+}
   .movie-data-details {
     background: #373533;
     width: 90%;
