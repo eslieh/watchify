@@ -124,13 +124,13 @@ button#watch:hover {
   color: white;
 }
 .list {
+  background: #1f1e1df7;
+  display: grid
+;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 11px 32px 32px;
   position: relative;
   z-index: 5;
-  background: #1f1e1dd4;
-  display: grid;
-  padding: 32px;
-  grid-template-columns: repeat(5, 1fr);
-  padding-top: 11px;
 }
 img.imag-lists {
   width: 100%;
@@ -523,9 +523,6 @@ button.cancel-btn:hover{
 .mylists {
   padding-top: 18vh;
 }
-h2.hio {
-    padding-left: 3vh;
-}
 @media screen and (max-width: 600px) {
   .nav_bar {
     position: fixed;
@@ -634,7 +631,7 @@ h2.hio {
   .list {
     position: relative;
     z-index: 5;
-    background: #1f1e1dd4;
+    background: #1f1e1df7;
     display: grid;
     padding: 13px;
     grid-template-columns: repeat(2, 1fr);
