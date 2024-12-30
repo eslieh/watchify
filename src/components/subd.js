@@ -8,7 +8,7 @@ function Subd({ user }) {
   const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
-    fetch(`http://localhost/watchify/userdata/subscription_data.php?user_id=${userId}`)
+    fetch(`https://fueldash.net/watchify/userdata/subscription_data.php?user_id=${userId}`)
       .then((response) => response.json())
       .then((data) => {
         setSubscriptionDetails(data[0]); // Assuming the user has one subscription
@@ -30,7 +30,7 @@ function Subd({ user }) {
     const confirmCancel = window.confirm("Are you sure you want to cancel your subscription?");
     if (confirmCancel) {
       // Send POST request to cancel the subscription
-      fetch("http://localhost/watchify/userdata/cancel_subscription.php", {
+      fetch("https://fueldash.net/watchify/userdata/cancel_subscription.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
