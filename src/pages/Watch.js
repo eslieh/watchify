@@ -39,7 +39,7 @@ function Watch() {
 
     fetchMovieDetails();
   }, [id, userId, userProfile]);
-
+  const watchDiv = document.querySelector('#watchdiv');
   const postWatchData = async (movieData) => {
     const watchData = {
       user_id: userId,
@@ -90,6 +90,7 @@ function Watch() {
       <Topbar profile={userProfile} />
       <div className="watch-container">
         <iframe
+          id="watchdiv"
           className="player"
           src={`https://www.2embed.cc/embed/${movie.id}`} // Embed player
           title="Movie Trailer"

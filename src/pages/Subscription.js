@@ -1,15 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Subscription() {
+  const [plans, setPlans] = useState([]); // Store the fetched plans
   const [selectedPlan, setSelectedPlan] = useState(null); // Track the selected plan
   const [isModalOpen, setIsModalOpen] = useState(false); // Track modal state
-
-  const plans = [
-    { name: "Mini", price: "$5/month", features: ["Feature 1", "Feature 2"] },
-    { name: "Basic", price: "$10/month", features: ["Feature 1", "Feature 2", "Feature 3"] },
-    { name: "Standard", price: "$10/month", features: ["Feature 1", "Feature 2", "Feature 3"] },
-    { name: "Premium", price: "$15/month", features: ["All Features"] },
-  ];
+     // If user data is not available, redirect to the auth page
+     const userId =
+     sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
+  // Fetch plans from the PHP API
+  useEffect(() => {
+    if (!userId ) {
+      window.location.href = "/auth"; // Redirect to the login/auth page
+      return;
+    }
+    fetch("http://localhost/watchify/userdata/plans.php") // Replace with your actual API endpoint
+      .then((response) => response.json())
+      .then((data) => {
+        setPlans(data); // Store the fetched plans
+      })
+      .catch((error) => {
+        console.error("Error fetching plans:", error);
+      });
+  }, []);
 
   const openModal = (plan) => {
     setSelectedPlan(plan);
@@ -22,39 +34,66 @@ function Subscription() {
   };
 
   const handleCheckout = () => {
-    // Add checkout logic here
-    alert(`Checking out for ${selectedPlan.name} plan!`);
+    // Prepare data for payment
+    window.location.href = `http://localhost/watchify/payment?user_id=${userId}&plan_id=${selectedPlan.id}`
+
+    // Send payment request to your server
+    
+
     closeModal();
   };
+
+  // Handle the payment success or failure
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get('status');
+    const paymentDetails = {
+      planId: params.get('planId'),
+      amount: params.get('amount'),
+      status: status,
+    };
+
+    if (status === 'success') {
+      console.log("success")
+    } else if (status === 'failed') {
+      // Payment failure: Redirect user to the failure page
+      console.log("success")
+    }
+  });
 
   return (
     <div className="authContainer">
       <div className="flex-subscription">
         <div className="my-logo">Watchify</div>
         <div className="plans-container">
-          {plans.map((plan) => (
-            <div key={plan.name} className="plan-card">
-              <h3 className="plan-name">{plan.name}</h3>
-              <p className="plan-price">{plan.price}</p>
-              <ul className="plan-features">
-                {plan.features.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
-              <button onClick={() => openModal(plan)} className="select-plan-btn">
-                Select Plan
-              </button>
-            </div>
-          ))}
+          {plans.length === 0 ? (
+            <p>Loading plans...</p>
+          ) : (
+            plans.map((plan) => (
+              <div key={plan.id} className="plan-card">
+                <h3 className="plan-name">{plan.name}</h3>
+                <p className="plan-price">KES {plan.price}</p>
+                <ul className="plan-features">
+                  <li>Duration: {plan.duration} days</li>
+                </ul>
+                <p className="plan-description">{plan.description}</p>
+                <button onClick={() => openModal(plan)} className="select-plan-btn">
+                  Select Plan
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
 
-      {isModalOpen && (
+      {isModalOpen && selectedPlan && (
         <div className="modal">
           <div className="modal-content">
             <h3>Checkout</h3>
             <p>You have selected the <strong>{selectedPlan.name}</strong> plan.</p>
-            <p>Price: {selectedPlan.price}</p>
+            <p>Price: KES {selectedPlan.price}</p>
+            <p>Duration: {selectedPlan.duration} days</p>
+            <p>Description: {selectedPlan.description}</p>
             <div className="modal-actions">
               <button onClick={handleCheckout} className="checkout-btn">
                 Proceed to Checkout

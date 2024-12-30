@@ -8,28 +8,25 @@ function Barner() {
   const navigate = useNavigate(); // Initialize the navigate function
 
   useEffect(() => {
-    // Fetch a movie from TMDb API
-    const fetchMovieData = async () => {
-      const API_KEY = '589f8d3ada4c0c32b6db7671025e3162'; // Replace with your TMDb API key
-      
-      function getRandomNumber() {
-        return Math.floor(Math.random() * 1000) + 1; // Adjust range as needed
-      }
-
-      const movieId = getRandomNumber();
-      const BASE_URL = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=en-US`;
+    // Fetch the latest movie from TMDb API
+    const fetchLatestMovie = async () => {
+      const API_KEY = "589f8d3ada4c0c32b6db7671025e3162"; // Replace with your TMDb API key
+      const BASE_URL = `https://api.themoviedb.org/3/movie/latest?api_key=${API_KEY}&language=en-US`;
 
       try {
         const response = await fetch(BASE_URL);
+        if (!response.ok) {
+          throw new Error("Failed to fetch the latest movie");
+        }
         const data = await response.json();
-        setMovie(data);  // Set the movie data
+        setMovie(data); // Set the movie data
       } catch (error) {
-        console.error('Error fetching movie data:', error);
+        console.error("Error fetching the latest movie:", error);
       }
     };
 
-    fetchMovieData();
-  }, []);  // Empty dependency array ensures it runs only once on mount
+    fetchLatestMovie();
+  }, []); // Empty dependency array ensures it runs only once on mount
 
   const handleMovieClick = () => {
     if (movie) {
@@ -54,7 +51,7 @@ function Barner() {
       
       <div className="barners">
         <img
-          className="barner-imamge"
+          className="barner-image"
           src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} // Use backdrop image URL from TMDb
           alt={movie.title}
         />
