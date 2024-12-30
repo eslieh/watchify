@@ -13,7 +13,7 @@ function Subscription() {
       window.location.href = "/auth"; // Redirect to the login/auth page
       return;
     }
-    fetch("http://localhost/watchify/userdata/plans.php") // Replace with your actual API endpoint
+    fetch("https://fueldash.net/watchify/userdata/plans.php") // Replace with your actual API endpoint
       .then((response) => response.json())
       .then((data) => {
         setPlans(data); // Store the fetched plans
@@ -35,7 +35,7 @@ function Subscription() {
 
   const handleCheckout = () => {
     // Prepare data for payment
-    window.location.href = `http://localhost/watchify/payment?user_id=${userId}&plan_id=${selectedPlan.id}`
+    window.location.href = `https://fueldash.net/watchify/payment?user_id=${userId}&plan_id=${selectedPlan.id}`
 
     // Send payment request to your server
     
