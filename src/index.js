@@ -11,6 +11,7 @@ import Subscription from './pages/Subscription.js';
 import Watch from './pages/Watch.js';
 import Errorpage from './pages/Errorpage.js';
 import Search from './pages/Search.js';
+import Subscribe from './pages/Subscribe.js';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -46,6 +47,11 @@ const router = createBrowserRouter([
   {
     path: "/Search",
     element: <Search/>,
+    errorElement: <Errorpage/>
+  },
+  {
+    path: "/Subscribe",
+    element: <Subscribe/>,
     errorElement: <Errorpage/>
   }
 ])
