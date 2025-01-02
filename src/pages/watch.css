@@ -18,6 +18,10 @@ img.barner-image {
   width: 100%;
   height: 100vh;
   object-fit: cover;
+  position: fixed;
+}
+div#load {
+  position: absolute;
 }
 .my-logo {
   background: transparent;
@@ -129,14 +133,21 @@ button#watch:hover {
   transition: all ease 0.8s;
   color: white;
 }
+
+h2.header-text {
+  position: relative;
+  background: #211f1f;
+  padding-left: 5%;
+}
+
 .list {
   background: #1f1e1df7;
-  display: grid
-;
+  display: grid;
   grid-template-columns: repeat(5, 1fr);
   padding: 11px 32px 32px;
   position: relative;
   z-index: 5;
+  padding-top: 9vh;
 }
 img.imag-lists {
   width: 100%;
@@ -160,8 +171,7 @@ img.imag-lists {
   top: 0;
   z-index: 500;
   background: #1f1e1dd4;
-  display: flex
-;
+  display: flex;
   place-content: center;
   align-items: center;
   left: 0;
@@ -170,7 +180,7 @@ img.cardim {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.5);
+  filter: brightness(0.2);
   border-radius: 21px;
 }
 .card-image {
@@ -188,15 +198,32 @@ iframe.player {
   border-radius: 22px;
   box-shadow: 0 0 7px #040404;
 }
-
+button.navbtns {
+  padding: 3px;
+  font-size: 39px;
+  border: none;
+  background: no-repeat;
+  color: white;
+}
+.navigation-buttons {
+  position: fixed;
+  z-index: 50;
+  top: 10%;
+  width: 100%;
+  display: flex
+;
+  justify-content: space-between;
+  padding: 12px;
+}
 .movie-info {
   margin-top: -84vh;
   position: relative;
   padding: 23px;
-  height: 89vh;
+  height: 84vh;
   background: center;
   display: grid;
   gap: 17vh;
+  overflow: auto;
 }
 .movie-nasme {
   font-size: 32px;
@@ -359,10 +386,8 @@ iframe.player {
   cursor: pointer;
 }
 
-
 .authContainer {
-  display: flex
-;
+  display: flex;
   justify-content: center;
   width: 100%;
   height: 100vh;
@@ -372,15 +397,13 @@ iframe.player {
   background: #515151;
   padding: 20px;
   border-radius: 19px;
-} 
+}
 form.login-form {
-  display: grid
-;
+  display: grid;
   gap: 3px;
 }
 .form-group {
-  display: grid
-;
+  display: grid;
 }
 button.form-button {
   padding: 7px;
@@ -407,20 +430,17 @@ input.form-input {
   color: black;
 }
 .flex-subscription {
-  display: flex
-;
+  display: flex;
   gap: 31px;
   width: 84%;
 }
 .flex-subscription .my-logo {
-  display: flex
-;
+  display: flex;
   align-items: center;
 }
 
 .plans-container {
-  display: grid
-;
+  display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 21px;
   width: 62%;
@@ -455,11 +475,11 @@ button.select-plan-btn {
 
 .modal {
   position: absolute;
-  background: #FF9800;
+  background: #ff9800;
   box-shadow: 0 0 7px #1f1e1d;
   border-radius: 20px;
   padding: 35px;
-} 
+}
 button.checkout-btn {
   padding: 10px;
   padding-left: 26px;
@@ -470,7 +490,7 @@ button.checkout-btn {
   color: white;
   transition: all ease 0.8s;
 }
-button.checkout-btn:hover{
+button.checkout-btn:hover {
   background: black;
   color: white;
   transition: all ease 0.8s;
@@ -488,7 +508,7 @@ button.cancel-btn {
   transition: all ease 0.8s;
   cursor: pointer;
 }
-button.cancel-btn:hover{
+button.cancel-btn:hover {
   background: black;
   color: white;
   transition: all ease 0.8s;
@@ -501,12 +521,11 @@ button.cancel-btn:hover{
   background: transparent;
   top: 0;
   height: 100%;
-  display: grid
-;
+  display: grid;
   place-content: center;
   width: 6%;
 }
-.nav_bar .links.jkd{
+.nav_bar .links.jkd {
   display: none;
   transition: all ease 0.8s;
 }
@@ -515,12 +534,33 @@ button.cancel-btn:hover{
   transition: all ease 0.8s;
 }
 
+img.episode-thumbnail {
+  width: 129px;
+  height: 76px;
+  border-radius: 10px;
+}
+
+.episode-list {
+  display: grid;
+  gap: 7px;
+}
+.episode-item {
+  display: flex;
+  gap: 5px;
+}
+
+.episode-details h4 {
+  font-size: 11px;
+}
+
+.episode-details p {
+  font-size: 10px;
+}
 .links.jkd {
   background: #76767694;
   padding: 12px;
   font-size: 19px;
-  display: grid
-;
+  display: grid;
   gap: 14px;
   border-radius: 41px;
   backdrop-filter: blur(1px);
@@ -529,6 +569,7 @@ button.cancel-btn:hover{
 .mylists {
   padding-top: 18vh;
 }
+
 @media screen and (max-width: 600px) {
   .nav_bar {
     position: fixed;
@@ -536,37 +577,37 @@ button.cancel-btn:hover{
     background: transparent;
     top: inherit;
     height: 8%;
-    display: flex
-;
+    display: flex;
     width: 100%;
     bottom: 0;
     justify-content: center;
     align-items: end;
     padding: 8px;
+  }
+  .episode-details p {
+    font-size: 7px;
 }
-.nav_bar .links.jkd {
-  display: flex
-;
-  transition: all ease 0.8s;
-}
+  .nav_bar .links.jkd {
+    display: flex;
+    transition: all ease 0.8s;
+  }
   .nav_bar:hover .links.jkd {
     display: flex;
     transition: all ease 0.8s;
   }
-  
+
   .links.jkd {
     background: #76767694;
     padding: 12px;
     font-size: 19px;
-    display: flex
-;
+    display: flex;
     gap: 14px;
     border-radius: 41px;
     backdrop-filter: blur(1px);
     box-shadow: 0 0 15px black;
     width: 48%;
     justify-content: space-around;
-}
+  }
   .movie-data-details {
     background: #373533;
     width: 90%;
@@ -590,22 +631,19 @@ button.cancel-btn:hover{
     top: 10vh;
   }
   .flex-subscription {
-    display: grid
-;
-}
-.plans-container {
-  display: grid
-;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 21px;
-  width: 100%;
-}
-.authContainer {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: fit-content;
-}
+    display: grid;
+  }
+  .movie-description {
+    font-size: 11px;
+    font-weight: 300;
+    width: 100%;
+  }
+  .authContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: fit-content;
+  }
   .search-wrapper-info {
     right: 0;
     position: absolute;

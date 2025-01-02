@@ -114,11 +114,11 @@ function Moviecard({ id }) {
   
 
   if (error) {
-    return <div>Error: {error}</div>;  // Display error if fetching fails
+    return <div id="load">Error: {error}</div>;  // Display error if fetching fails
   }
 
   if (!movie) {
-    return <div>Loading...</div>;  // Display loading state if movie data is not yet fetched
+    return <div id="load">Loading...</div>;  // Display loading state if movie data is not yet fetched
   }
 
   return (

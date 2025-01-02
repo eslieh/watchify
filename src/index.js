@@ -12,6 +12,7 @@ import Watch from './pages/Watch.js';
 import Errorpage from './pages/Errorpage.js';
 import Search from './pages/Search.js';
 import Subscribe from './pages/Subscribe.js';
+import Series from './pages/Series.js';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -37,6 +38,11 @@ const router = createBrowserRouter([
   {
     path: "/watch/:id",
     element: <Watch/>,
+    errorElement: <Errorpage/>
+  },
+  {
+    path: "/series/:id",
+    element: <Series/>,
     errorElement: <Errorpage/>
   },
   {
