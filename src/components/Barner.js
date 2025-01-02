@@ -1,58 +1,59 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook
+import { useNavigate } from "react-router-dom";
 import Moviecard from "./Moviecard";
 
 function Barner() {
   const [movie, setMovie] = useState(null);
   const [selectedMovieId, setSelectedMovieId] = useState(null);
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch the latest movie from TMDb API
-    const fetchLatestMovie = async () => {
+    // Fetch a trending movie from TMDb API
+    const fetchTrendingMovie = async () => {
       const API_KEY = "589f8d3ada4c0c32b6db7671025e3162"; // Replace with your TMDb API key
-      const BASE_URL = `https://api.themoviedb.org/3/movie/latest?api_key=${API_KEY}&language=en-US`;
+      const BASE_URL = `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`;
 
       try {
         const response = await fetch(BASE_URL);
         if (!response.ok) {
-          throw new Error("Failed to fetch the latest movie");
+          throw new Error("Failed to fetch trending movies");
         }
         const data = await response.json();
-        setMovie(data); // Set the movie data
+        if (data.results && data.results.length > 0) {
+          setMovie(data.results[0]); // Set the first trending movie
+        }
       } catch (error) {
-        console.error("Error fetching the latest movie:", error);
+        console.error("Error fetching trending movie:", error);
       }
     };
 
-    fetchLatestMovie();
-  }, []); // Empty dependency array ensures it runs only once on mount
+    fetchTrendingMovie();
+  }, []);
 
   const handleMovieClick = () => {
     if (movie) {
-      setSelectedMovieId(movie.id); // Set the selected movie ID when "More Info" is clicked
+      setSelectedMovieId(movie.id);
     }
   };
 
-  // Navigate to the watch page when the "Watch Movie" button is clicked
   const handleWatchButtonClick = () => {
     if (movie) {
-      navigate(`/watch/${movie.id}`); // Navigate to the watch page with the movie ID
+      navigate(`/watch/${movie.id}`);
     }
   };
 
   if (!movie) {
-    return <div>Loading...</div>; // Show loading state if data is not yet fetched
+    return <div>Loading...</div>;
   }
 
   return (
     <>
-      {selectedMovieId && <Moviecard id={selectedMovieId} />} {/* Render Moviecard if a movie is selected */}
-      
+      {selectedMovieId && <Moviecard id={selectedMovieId} />}
+
       <div className="barners">
         <img
           className="barner-image"
-          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} // Use backdrop image URL from TMDb
+          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
           alt={movie.title}
         />
         <div className="movie-details">

@@ -13,6 +13,12 @@ body {
   background: #1f1e1d;
   color: white;
 }
+
+img.barner-image {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
 .my-logo {
   background: transparent;
   font-weight: 900;
