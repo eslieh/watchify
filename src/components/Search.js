@@ -26,7 +26,6 @@ function Search() {
 
       setLoading(true);
 
-      // Fetch movies and TV shows concurrently
       const movieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${searchTerm}&language=en-US&page=1`;
       const seriesUrl = `https://api.themoviedb.org/3/search/tv?api_key=${API_KEY}&query=${searchTerm}&language=en-US&page=1`;
 
@@ -39,8 +38,18 @@ function Search() {
         const movieData = await movieResponse.json();
         const seriesData = await seriesResponse.json();
 
-        // Combine movie and series results
-        setSearchResults([...movieData.results, ...seriesData.results]);
+        // Add media_type to each result
+        const moviesWithMediaType = movieData.results.map((movie) => ({
+          ...movie,
+          media_type: "movie",
+        }));
+        const seriesWithMediaType = seriesData.results.map((series) => ({
+          ...series,
+          media_type: "tv",
+        }));
+
+        // Combine results and update state
+        setSearchResults([...moviesWithMediaType, ...seriesWithMediaType]);
       } catch (error) {
         console.error("Error fetching search results:", error);
       } finally {
@@ -49,7 +58,7 @@ function Search() {
     };
 
     fetchSearchResults();
-  }, [searchTerm]); // Only fetch when the search term changes
+  }, [searchTerm]);
 
   // Handle title click (show appropriate card based on type)
   const handleTitleClick = (id, type) => {
@@ -102,9 +111,7 @@ function Search() {
                 <div
                   key={title.id}
                   className="title-barners"
-                  onClick={() =>
-                    handleTitleClick(title.id, title.media_type) // Pass the type (movie or tv)
-                  }
+                  onClick={() => handleTitleClick(title.id, title.media_type)} // Pass media_type (movie or tv)
                 >
                   <img
                     src={`https://image.tmdb.org/t/p/w500${title.poster_path}`} // Use smaller image size (w500)
@@ -112,7 +119,8 @@ function Search() {
                     className="imag-lists"
                   />
                   <div className="title-name">
-                    {title.name || title.title} {/* Show name for series, title for movies */}
+                    {title.name || title.title}{" "}
+                    {/* Show name for series, title for movies */}
                   </div>
                 </div>
               ))
