@@ -619,13 +619,15 @@ img.series-thumb {
     background: transparent;
     top: inherit;
     height: 8%;
-    display: flex;
+    display: flex
+;
     width: 100%;
     bottom: 0;
     justify-content: center;
-    align-items: end;
+    align-items: end; 
     padding: 8px;
-  }
+    display: none;
+}
   .episode-details p {
     font-size: 7px;
   }

@@ -9,6 +9,7 @@ function Watch() {
   const [subscriptionDetails, setSubscriptionDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [subscriptionExpired, setSubscriptionExpired] = useState(false);
+  const [lastWatchTime, setLastWatchTime] = useState(0); // Track the last watch time
   const userId =
     sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
   const userProfile =
@@ -16,20 +17,18 @@ function Watch() {
   const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
-    // If user data is not available, redirect to the auth page
     if (!userId || !userProfile) {
       window.location.href = "/auth"; // Redirect to the login/auth page
       return;
     }
 
-    // Fetch subscription details
     const fetchSubscriptionDetails = async () => {
       try {
         const response = await fetch(
           `https://fueldash.net/watchify/userdata/subscription_data.php?user_id=${userId}`
         );
         const data = await response.json();
-        setSubscriptionDetails(data[0]); // Assuming the user has one subscription
+        setSubscriptionDetails(data[0]);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching subscription details:", error);
@@ -38,21 +37,21 @@ function Watch() {
     };
 
     fetchSubscriptionDetails();
-  }, [userId, userProfile]);
+  }, [userId, id]);
 
   useEffect(() => {
     if (subscriptionDetails) {
       const currentDate = new Date();
       const nextBillingDate = new Date(subscriptionDetails.next_billing_date);
       if (currentDate > nextBillingDate) {
-        setSubscriptionExpired(true); // Mark the subscription as expired
+        setSubscriptionExpired(true);
       }
     }
   }, [subscriptionDetails]);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
-      const API_KEY = "589f8d3ada4c0c32b6db7671025e3162"; // Replace with your actual API key
+      const API_KEY = "589f8d3ada4c0c32b6db7671025e3162";
       const BASE_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
 
       try {
@@ -61,7 +60,7 @@ function Watch() {
           throw new Error(`TMDb API Error: ${response.statusText}`);
         }
         const data = await response.json();
-        setMovie(data); // Store movie details
+        setMovie(data);
         postWatchData(data); // Post watch data to backend
       } catch (error) {
         console.error("Error fetching movie details:", error);
@@ -75,54 +74,49 @@ function Watch() {
     const watchData = {
       user_id: userId,
       movie_id: movieData.id,
-      length: movieData.runtime || 0, // Assume runtime is in minutes
-      movie_thumb: `https://image.tmdb.org/t/p/w500${movieData.poster_path}`, // TMDb poster URL
+      length: movieData.runtime || 0,
+      movie_thumb: `https://image.tmdb.org/t/p/w500${movieData.poster_path}`, // Adding the movie thumbnail
     };
 
+    console.log(watchData);
+
     try {
-      const response = await fetch(`https://fueldash.net/userdata/streamdata.php`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(watchData),
-      });
+      const response = await fetch(
+        `https://fueldash.net/watchify/userdata/streamdata.php`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(watchData),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error("Failed to post watch data to backend");
+        throw new Error("Failed to save watch data");
       }
-
-      console.log("Watch data posted successfully:", await response.json());
+      const result = await response.json();
+      console.log(result);
     } catch (error) {
-      console.error("Error posting watch data:", error);
+      console.error("Error:", error);
     }
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading state while fetching data
+    return <div>Loading...</div>;
   }
 
-  if (!movie) {
-    return <div>Loading movie...</div>; // Show loading state while movie details are fetched
-  }
-  console.log(movie)
   if (subscriptionExpired) {
     return (
       <>
         <Topbar profile={userProfile} />
         <div className="subscription_prompt">
-          <div className="subscription-prompt">
-            <h2>Your subscription has expired</h2>
-            <p>Subscribe to continue watching {movie.title}!</p>
-            <div className="continue-watching"></div>
-            <button onClick={() => navigate("/subscription")}>Subscribe Now</button>
-          </div>
+          <h2>Your subscription has expired</h2>
+          <p>Subscribe to continue watching {movie.title}!</p>
+          <button onClick={() => navigate("/subscription")}>
+            Subscribe Now
+          </button>
         </div>
-          <img
-            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} // Movie poster
-            alt={movie.title} // Movie title for the alt text
-            className="series-thumb" // Add appropriate styling
-          />
       </>
     );
   }
@@ -134,7 +128,7 @@ function Watch() {
         <iframe
           id="watchdiv"
           className="player"
-          src={`https://www.2embed.cc/embed/${movie.id}`} // Embed player
+          src={`https://www.2embed.cc/embed/${movie.id}?start=${lastWatchTime}`} // Start from last watch time
           title="Movie Trailer"
           allowFullScreen
         ></iframe>
