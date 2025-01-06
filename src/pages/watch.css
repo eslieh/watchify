@@ -609,7 +609,9 @@ img.series-thumb {
   height: 100%;
   object-fit: cover;
 }
-
+.search-wrapper-info .list {
+  gap: 8px;
+}
 @media screen and (max-width: 600px) {
   .nav_bar {
     position: fixed;
