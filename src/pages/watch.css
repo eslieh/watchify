@@ -176,6 +176,39 @@ img.imag-lists {
   align-items: center;
   left: 0;
 }
+
+.subscription_prompt {
+  display: grid;
+  height: 100vh;
+  width: 100%;
+  place-content: center;
+  position: absolute;
+  z-index: 11;
+}
+
+.subscription-prompt {
+  background: #00000075;
+  padding: 13px;
+  border-radius: 21px;
+  backdrop-filter: blur(1px);
+  box-shadow: 0 0 15px gray;
+}
+
+.subscription-prompt button {
+  padding: 6px;
+  padding-left: 17px;
+  padding-right: 17px;
+  border-radius: 34px;
+  border: none;
+  background: orange;
+  transition: all ease 0.8s;
+}
+.subscription-prompt button:hover {
+  transition: all ease 0.8s;
+  background: white;
+  cursor: pointer;
+}
+
 img.cardim {
   width: 100%;
   height: 100%;
@@ -210,8 +243,7 @@ button.navbtns {
   z-index: 50;
   top: 10%;
   width: 100%;
-  display: flex
-;
+  display: flex;
   justify-content: space-between;
   padding: 12px;
 }
@@ -569,6 +601,14 @@ img.episode-thumbnail {
 .mylists {
   padding-top: 18vh;
 }
+img.series-thumb {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 @media screen and (max-width: 600px) {
   .nav_bar {
@@ -586,7 +626,7 @@ img.episode-thumbnail {
   }
   .episode-details p {
     font-size: 7px;
-}
+  }
   .nav_bar .links.jkd {
     display: flex;
     transition: all ease 0.8s;
@@ -660,6 +700,14 @@ img.episode-thumbnail {
     font-weight: 300;
     width: 100%;
   }
+
+  .plans-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 21px;
+    width: 100%;
+  }
+
   .movie-details {
     position: absolute;
     z-index: 7;
