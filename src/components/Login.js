@@ -9,22 +9,38 @@ function Login() {
     event.preventDefault(); // Prevent the default form submission
 
     try {
-      const response = await fetch("https://fueldash.net/watchify/auth/login.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }), // Send email and password as JSON
-      });
+      const response = await fetch(
+        "https://fueldash.net/watchify/auth/login.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }), // Send email and password as JSON
+        }
+      );
 
       const result = await response.json();
-      console.log(result) // Parse the response as JSON
+      console.log(result); // Parse the response as JSON
       if (result.status === "success") {
         setMessage("Login successful!");
+
+        const expiryDate = new Date();
+        expiryDate.setMonth(expiryDate.getMonth() + 1); // Set expiry to one month
+
+        const userData = {
+          user_id: result.user_id,
+          profile: result.profile,
+          expiry: expiryDate.getTime(),
+        };
+
+        // Save to both storages
+        localStorage.setItem("user_data", JSON.stringify(userData));
         sessionStorage.setItem("user_id", result.user_id);
         sessionStorage.setItem("profile", result.profile);
-        // Redirect to the homepage
-        window.location.href = "./"; // Handle success, e.g., store user ID or redirect
+
+        // Redirect to homepage
+        window.location.href = "./";
       } else {
         setMessage(result.message); // Display the error message
       }

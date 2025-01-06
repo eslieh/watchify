@@ -27,13 +27,26 @@ function Signup() {
   
       const result = await response.json();
       if (result.status === "success") {
-        setMessage("Registration successful!    ");
+        setMessage("Reqistration successful!");
+      
+        const expiryDate = new Date();
+        expiryDate.setMonth(expiryDate.getMonth() + 1); // Set expiry to one month
+      
+        const userData = {
+          user_id: result.user_id,
+          profile: result.profile,
+          expiry: expiryDate.getTime(),
+        };
+      
+        // Save to both storages
+        localStorage.setItem("user_data", JSON.stringify(userData));
         sessionStorage.setItem("user_id", result.user_id);
         sessionStorage.setItem("profile", result.profile);
-
-        // Redirect to the homepage
+      
+        // Redirect to homepage
         window.location.href = "./";
-      } else {
+      }
+      else {
         setMessage(result.message);
       }
     } catch (error) {
