@@ -5,6 +5,7 @@ import Trending from "../components/Movielists";
 import Cookies from "js-cookie"; // Import js-cookie for cookie management
 import Card from "../components/Moviecard";
 import Continue from "../components/Continue";
+import "./show.css"
 function Index() {
   // Function to check if the user is logged in by checking sessionStorage or localStorage
   const userId =

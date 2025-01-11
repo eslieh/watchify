@@ -18,7 +18,18 @@ function Series() {
     sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
   const userProfile =
     sessionStorage.getItem("profile") || localStorage.getItem("profile");
+  useEffect(() => {
+    // Dynamically load hider.css only when the page is loaded
+    const hiderCss = document.createElement("link");
+    hiderCss.rel = "stylesheet";
+    hiderCss.href = "./hider.css"; // Path to your hider.css file
+    document.head.appendChild(hiderCss);
 
+    // Clean up by removing the stylesheet when the page is closed or the component is unmounted
+    return () => {
+      document.head.removeChild(hiderCss);
+    };
+  }, []);
   useEffect(() => {
     if (!userId || !userProfile) {
       window.location.href = "/auth"; // Redirect to login
@@ -35,7 +46,7 @@ function Series() {
     const fetchGeneralSeriesDetails = async () => {
       const API_KEY = "589f8d3ada4c0c32b6db7671025e3162";
       const URL = `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}&language=en-US`;
-  
+
       try {
         const response = await fetch(URL);
         if (!response.ok) {
@@ -70,7 +81,7 @@ function Series() {
 
     fetchSeriesDetails();
   }, [id, userId, userProfile, location.search]);
-  console.log(series)
+  console.log(series);
   const fetchSubscriptionData = async () => {
     try {
       const response = await fetch(
@@ -92,16 +103,15 @@ function Series() {
     const episode = urlParams.get("e");
     const watchData = {
       user_id: userId,
-      movie_id: seriesData.id,
+      movie_id: id,
       length: seriesData.episode_run_time?.[0] || 0,
       movie_thumb: `https://image.tmdb.org/t/p/w500${seriesData.poster_path}`,
-      season_number: parseInt(season, 10),  // Ensure season number is an integer
+      season_number: parseInt(season, 10), // Ensure season number is an integer
       episode_number: parseInt(episode, 10), // Ensure episode number is an integer
     };
-    
+
     console.log(watchData);
-    
-  
+
     try {
       const response = await fetch(
         `https://fueldash.net/watchify/userdata/streamdata.php`,
@@ -113,7 +123,7 @@ function Series() {
           body: JSON.stringify(watchData),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error("Failed to post watch data to backend");
       }
@@ -122,7 +132,6 @@ function Series() {
       console.error("Error posting watch data:", error);
     }
   };
-  
 
   const changeEpisode = (direction) => {
     const urlParams = new URLSearchParams(location.search);
@@ -169,8 +178,8 @@ function Series() {
         {series && (
           <>
             <img
-              src = {`https://image.tmdb.org/t/p/original/${generalD.backdrop_path}`}
-              alt={generalD.title }
+              src={`https://image.tmdb.org/t/p/original/${generalD.backdrop_path}`}
+              alt={generalD.title}
               className="series-thumb"
             />
           </>

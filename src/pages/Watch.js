@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Topbar from "../components/Topbar";
 import "./watch.css";
-
+import "./hider.css";
 function Watch() {
   const { id } = useParams(); // Get the movie ID from the URL parameter
   const [movie, setMovie] = useState(null);
@@ -15,7 +15,18 @@ function Watch() {
   const userProfile =
     sessionStorage.getItem("profile") || localStorage.getItem("profile");
   const navigate = useNavigate(); // Hook for navigation
+  useEffect(() => {
+    // Dynamically load hider.css only when the page is loaded
+    const hiderCss = document.createElement("link");
+    hiderCss.rel = "stylesheet";
+    hiderCss.href = "./hider.css"; // Path to your hider.css file
+    document.head.appendChild(hiderCss);
 
+    // Clean up by removing the stylesheet when the page is closed or the component is unmounted
+    return () => {
+      document.head.removeChild(hiderCss);
+    };
+  }, []);
   useEffect(() => {
     if (!userId || !userProfile) {
       window.location.href = "/auth"; // Redirect to the login/auth page
