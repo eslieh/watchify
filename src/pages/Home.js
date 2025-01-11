@@ -4,6 +4,7 @@ import Barner from "../components/Barner";
 import Trending from "../components/Movielists";
 import Cookies from "js-cookie"; // Import js-cookie for cookie management
 import Card from "../components/Moviecard";
+import Continue from "../components/Continue";
 function Index() {
   // Function to check if the user is logged in by checking sessionStorage or localStorage
   const userId =
@@ -21,6 +22,7 @@ function Index() {
     <div className="home">
       <Topbar profile={userProfile}/>
       <Barner />
+      <Continue />
       <Trending />
       {/* <Card/> */}
     </div>

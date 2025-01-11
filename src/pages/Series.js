@@ -61,6 +61,7 @@ function Series() {
         const data = await response.json();
         setSeries(data);
         setSeasonData(data);
+        postWatchData(data);
         setTotalEpisodes(data.episodes.length);
       } catch (error) {
         console.error("Error fetching series details:", error);
@@ -85,16 +86,25 @@ function Series() {
   };
 
   const postWatchData = async (seriesData) => {
+    // Extract season and episode from query parameters
+    const urlParams = new URLSearchParams(location.search);
+    const season = urlParams.get("s");
+    const episode = urlParams.get("e");
     const watchData = {
       user_id: userId,
-      series_id: seriesData.id,
+      movie_id: seriesData.id,
       length: seriesData.episode_run_time?.[0] || 0,
-      series_thumb: `https://image.tmdb.org/t/p/w500${seriesData.poster_path}`,
+      movie_thumb: `https://image.tmdb.org/t/p/w500${seriesData.poster_path}`,
+      season_number: parseInt(season, 10),  // Ensure season number is an integer
+      episode_number: parseInt(episode, 10), // Ensure episode number is an integer
     };
-
+    
+    console.log(watchData);
+    
+  
     try {
       const response = await fetch(
-        `https://fueldash.net/userdata/streamdata.php`,
+        `https://fueldash.net/watchify/userdata/streamdata.php`,
         {
           method: "POST",
           headers: {
@@ -103,7 +113,7 @@ function Series() {
           body: JSON.stringify(watchData),
         }
       );
-
+  
       if (!response.ok) {
         throw new Error("Failed to post watch data to backend");
       }
@@ -112,6 +122,7 @@ function Series() {
       console.error("Error posting watch data:", error);
     }
   };
+  
 
   const changeEpisode = (direction) => {
     const urlParams = new URLSearchParams(location.search);
