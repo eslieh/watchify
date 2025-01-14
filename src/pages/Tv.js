@@ -11,14 +11,7 @@ function Tv() {
   const [episodes, setEpisodes] = useState([]);
   const navigate = useNavigate();
 
-  const userId = sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
-  const userProfile = sessionStorage.getItem("profile") || localStorage.getItem("profile");
 
-  useEffect(() => {
-    if (!userId || !userProfile) {
-      navigate("/auth");
-    }
-  }, [userId, userProfile, navigate]);
 
   useEffect(() => {
     const fetchSeriesDetails = async () => {

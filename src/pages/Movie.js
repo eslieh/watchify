@@ -7,21 +7,15 @@ function Movie() {
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
   const [isInMyList, setIsInMyList] = useState(false);  // State to track if the movie is in the user's list
-  const navigate = useNavigate();  // Initialize the navigate hook
-  const userId =
-    sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
-  const userProfile =
-    sessionStorage.getItem("profile") || localStorage.getItem("profile");
-
-  // If user data is not available, redirect to the auth page
-  if (!userId || !userProfile) {
-    window.location.href = "/auth"; // Redirect to the login/auth page
-  } useEffect(() => {
+  const navigate = useNavigate(); 
+  const userId = null // Initialize the navigate hook
+  useEffect(() => {
+    
     // Fetch movie details using the provided movie id
     const fetchMovieDetails = async () => {
       const API_KEY = "589f8d3ada4c0c32b6db7671025e3162";  // Replace with your actual API key
       const BASE_URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
-
+      
       try {
         const response = await fetch(BASE_URL);
         if (!response.ok) {
