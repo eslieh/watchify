@@ -788,7 +788,8 @@ select#season {
     height: 100vh;
     background: #2a2320;
     z-index: 50;
-  }
+    padding: 10px;
+}
   .hidden-search .search-button {
     position: absolute;
     right: 0;
