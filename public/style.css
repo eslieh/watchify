@@ -16,8 +16,7 @@ body {
 
 .listse {
   background: #1f1e1df7;
-  display: flex
-;
+  display: flex;
   padding: 11px 19px 27px;
   position: relative;
   z-index: 5;
@@ -88,6 +87,15 @@ div#load {
   position: fixed;
   width: 100%;
   z-index: 12;
+  background: transparent;
+  backdrop-filter: blur(0px);
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* Styling when scrolled */
+.topbar.scrolled {
+  background: #87878742;
+  backdrop-filter: blur(17px);
 }
 img.userimge {
   width: 41px;
@@ -215,17 +223,19 @@ img.imag-lists {
   padding: 3px;
   transition: all ease 0.2s;
 }
+
 .movie-card-pop {
   position: fixed;
   height: 100vh;
   width: 100%;
   top: 0;
   z-index: 500;
-  background: #1f1e1dd4;
+  background: #1f1e1d00;
   display: flex;
   place-content: center;
   align-items: center;
   left: 0;
+  backdrop-filter: blur(5px);
 }
 
 .subscription_prompt {
@@ -320,13 +330,25 @@ button.navbtns {
   display: flex;
   gap: 6px;
 }
+
 button.watchNow {
   padding: 7px;
-  padding-left: 26px;
-  padding-right: 26px;
+  padding-left: 20px;
+  padding-right: 20px;
   border-radius: 32px;
   transition: all ease 0.8s;
   border: 2px solid white;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+button.back-button {
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  color: white;
+  padding: 6px;
 }
 button.watchNow:hover {
   border: 2px solid white;
@@ -366,16 +388,23 @@ p.result-texte {
   font-weight: 600;
   padding: 7px;
 }
+
 .search-wrapper-info {
   right: 0;
   position: absolute;
-  top: 10vh;
-  border-radius: 34px;
-  height: 81vh;
+  top: 12vh;
+  border-radius: 0px;
+  height: 88vh;
   overflow: auto;
-  margin: 3%;
+  margin: 0;
   box-shadow: 0 0 6px gray;
-  background: #292320;
+  background: #1d1c1b;
+  padding: 34px;
+  width: 100%;
+}
+
+.search-wrapper-info .list {
+  padding: 0px;
 }
 .profile-cdjk {
   padding: 28px;
@@ -618,26 +647,62 @@ button.cancel-btn:hover {
 }
 
 img.episode-thumbnail {
-  width: 129px;
-  height: 76px;
+  height: 68px;
   border-radius: 10px;
 }
 
+h2.hio {
+  padding-left: 13px;
+}
 .episode-list {
   display: grid;
   gap: 7px;
-}
-.episode-item {
-  display: flex;
-  gap: 5px;
+  background: linear-gradient(45deg, #3131319e, #353535c2);
+  margin: -23px;
+  padding: 23px;
+  padding-top: 8px;
+  margin-top: 6px;
+  border-radius: 20px;
 }
 
-.episode-details h4 {
+.top-icons {
+  font-size: 34px;
+  padding-right: 7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #dfdfdf;
+  transition: all ease 0.8s;
+  cursor: pointer;
+}
+.top-icons i:hover {
+  color: white;
+  transition: all ease 0.8s;
+}
+.episode-item {
+  display: grid;
+  gap: 5px;
+}
+.flex-details-conta {
+  display: flex;
+  gap: 11px;
+}
+
+p.details-of-episode {
   font-size: 11px;
+  padding-bottom: 1vh;
+}
+.episode-details h4 {
+  font-size: 14px;
 }
 
 .episode-details p {
   font-size: 10px;
+  color: gray;
+}
+
+.nav_barss {
+  display: none;
 }
 .links.jkd {
   background: #76767694;
@@ -663,23 +728,90 @@ img.series-thumb {
 .search-wrapper-info .list {
   gap: 8px;
 }
+
+.forgert-modl {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #69696921;
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  place-content: center;
+  backdrop-filter: blur(8px);
+}
+.forgot-password-modal form {
+  display: grid;
+  gap: 3px;
+}
+
+.top-navigator {
+  position: fixed;
+  padding: 9px;
+  z-index: 10;
+}
+
+.movie-card-pop-s {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-navigator {
+  position: fixed;
+  padding: 9px;
+  z-index: 501;
+}
+.search-button {
+  margin-right: 11px;
+  font-size: 21px;
+  display: none;
+}
+
+select#season {
+  padding: 7px;
+  margin-top: 6px;
+  width: 68%;
+  padding-right: 7px;
+  padding-left: 16px;
+  border-radius: 7px;
+  border: none;
+  outline: none;
+  background: #f9f9f9;
+}
 @media screen and (max-width: 600px) {
+  .hidden-search {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #2a2320;
+    z-index: 50;
+  }
+  .hidden-search .search-button {
+    position: absolute;
+    right: 0;
+    top: 3%;
+  }
+  .hidden.search {
+    display: none;
+  }
   .nav_bar {
     position: fixed;
     left: 0;
     background: transparent;
     top: inherit;
     height: 8%;
-    display: flex
-;
+    display: flex;
     width: 100%;
     bottom: 0;
     justify-content: center;
-    align-items: end; 
+    align-items: end;
     padding: 8px;
-}
+  }
   .episode-details p {
-    font-size: 7px;
+    font-size: 12px;
   }
   .nav_bar .links.jkd {
     display: flex;
@@ -690,6 +822,46 @@ img.series-thumb {
     transition: all ease 0.8s;
   }
 
+  .nav_barss {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 8vh;
+    align-items: center;
+    justify-content: center;
+    background: #87878742;
+    backdrop-filter: blur(17px);
+    z-index: 9;
+  }
+
+  .linkss.jkd {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  a.icons-home {
+    display: grid;
+    text-align: center;
+  }
+
+  img.downimg {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+  }
+
+  a.icons-home i {
+    font-size: 23px;
+  }
+
+  span.navigator {
+    font-size: 12px;
+    font-weight: 600;
+  }
   .links.jkd {
     background: #76767694;
     padding: 12px;
@@ -714,6 +886,19 @@ img.series-thumb {
     font-weight: 900;
     font-size: 28px;
     padding: 4px;
+  }
+
+  .top-icons {
+    display: none;
+  }
+
+  .user-details {
+    display: none;
+  }
+  .search-button {
+    margin-right: 11px;
+    font-size: 21px;
+    display: flex;
   }
   .movie-name {
     font-size: 34px;
@@ -742,12 +927,13 @@ img.series-thumb {
     right: 0;
     position: absolute;
     top: 18vh;
-    border-radius: 34px;
+    border-radius: 0px;
     height: 81vh;
     overflow: auto;
-    margin: 3%;
-    box-shadow: 0 0 6px gray;
+    margin: 0%;
+    box-shadow: none;
     background: #292320;
+    padding: 9px;
   }
   .movie-description {
     font-size: 14px;

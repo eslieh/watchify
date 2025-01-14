@@ -13,6 +13,8 @@ import Errorpage from './pages/Errorpage.js';
 import Search from './pages/Search.js';
 import Subscribe from './pages/Subscribe.js';
 import Series from './pages/Series.js';
+import Movie from './pages/Movie.js';
+import Tv from './pages/Tv.js'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -43,6 +45,16 @@ const router = createBrowserRouter([
   {
     path: "/series/:id",
     element: <Series/>,
+    errorElement: <Errorpage/>
+  },
+  {
+    path: "/movie/:id",
+    element: <Movie/>,
+    errorElement: <Errorpage/>
+  },
+  {
+    path: "/tv/:id",
+    element: <Tv/>,
     errorElement: <Errorpage/>
   },
   {

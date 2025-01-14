@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";  // Import useNavigate
-
-function Moviecard({ id }) {
+import { useParams, useNavigate } from "react-router-dom";
+import Nav from "../components/Nav";
+function Movie() {
+    const { id } = useParams(); 
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
   const [isInMyList, setIsInMyList] = useState(false);  // State to track if the movie is in the user's list
@@ -120,10 +121,11 @@ function Moviecard({ id }) {
   if (!movie) {
     return <div id="load">Loading...</div>;  // Display loading state if movie data is not yet fetched
   }
-
   const link = `https://wa.me/?text=Watch this https://watchifyy.vercel.app/movie/${id}`;
   return (
-    <div className="movie-card-pop">
+    <>
+        <Nav/>
+         <div className="movie-card-pop-s">
       <div className="movie-data-details">
         <div className="card-image">
           <img
@@ -166,7 +168,9 @@ function Moviecard({ id }) {
         </div>
       </div>
     </div>
+    </>
+   
   );
 }
 
-export default Moviecard;
+export default Movie;

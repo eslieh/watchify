@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import Nav from "../components/Nav";
 
-function Seriescard({ id }) {
+function Tv() {
+  const { id } = useParams(); 
   const [series, setSeries] = useState(null);
   const [error, setError] = useState(null);
   const [isInMyList, setIsInMyList] = useState(false);
@@ -9,14 +11,14 @@ function Seriescard({ id }) {
   const [episodes, setEpisodes] = useState([]);
   const navigate = useNavigate();
 
-  const userId =
-    sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
-  const userProfile =
-    sessionStorage.getItem("profile") || localStorage.getItem("profile");
+  const userId = sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
+  const userProfile = sessionStorage.getItem("profile") || localStorage.getItem("profile");
 
-  if (!userId || !userProfile) {
-    window.location.href = "/auth";
-  }
+  useEffect(() => {
+    if (!userId || !userProfile) {
+      navigate("/auth");
+    }
+  }, [userId, userProfile, navigate]);
 
   useEffect(() => {
     const fetchSeriesDetails = async () => {
@@ -83,13 +85,6 @@ function Seriescard({ id }) {
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
   };
 
-  if (error) {
-    return <div id="load">Error: {error}</div>;
-  }
-
-  if (!series) {
-    return <div id="load">Loading...</div>;
-  }
   const formatRuntime = (runtime) => {
     if (!runtime) return "Runtime not available";
     const hours = Math.floor(runtime / 60);
@@ -98,10 +93,20 @@ function Seriescard({ id }) {
   };
 
   const link = `https://wa.me/?text=Watch this https://watchifyy.vercel.app/tv/${id}?s=1&e=1`;
+
+  if (error) {
+    return <div id="load">Error: {error}</div>;
+  }
+
+  if (!series) {
+    return <div id="load">Loading...</div>;
+  }
+
   return (
-    <div className="movie-card-pop">
+    <>
+      <Nav />
+      <div className="movie-card-pop">
         <div className="movie-data-details">
-          
           <div className="card-image">
             <img
               className="cardim"
@@ -110,11 +115,6 @@ function Seriescard({ id }) {
             />
           </div>
           <div className="movie-info">
-          <div className="cancelbt">
-            <button className="cancel" onClick={handleCancelClick}>
-              <i className="fa-solid fa-xmark"></i>
-            </button>
-          </div>
             <div className="movie-ncjks">
               <div className="movie-name">{series.name}</div>
               <div className="movie-description">{series.overview}</div>
@@ -172,7 +172,8 @@ function Seriescard({ id }) {
           </div>
         </div>
       </div>
+    </>
   );
 }
 
-export default Seriescard;
+export default Tv;

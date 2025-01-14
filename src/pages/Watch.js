@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Topbar from "../components/Topbar";
+import Nav from "../components/Nav";
 import "./watch.css";
 import "./hider.css";
 function Watch() {
@@ -120,7 +120,7 @@ function Watch() {
   if (subscriptionExpired) {
     return (
       <>
-        <Topbar profile={userProfile} />
+        <Nav profile={userProfile} />
         <div className="subscription_prompt">
           <h2>Your subscription has expired</h2>
           <p>Subscribe to continue watching {movie.title}!</p>
@@ -134,7 +134,7 @@ function Watch() {
 
   return (
     <>
-      <Topbar profile={userProfile} />
+      <Nav />
       <div className="watch-container">
         <iframe
           id="watchdiv"

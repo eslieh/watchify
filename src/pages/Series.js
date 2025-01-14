@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import Topbar from "../components/Topbar";
+import Nav from "../components/Nav";
 import "./watch.css";
 
 function Series() {
@@ -164,7 +164,7 @@ function Series() {
   if (isSubscriptionExpired) {
     return (
       <>
-        <Topbar profile={userProfile} />
+        <Nav />
         <div className="subscription_prompt">
           <div className="subscription-prompt">
             <h2>Your subscription has expired</h2>
@@ -204,7 +204,7 @@ function Series() {
 
   return (
     <>
-      <Topbar profile={userProfile} />
+      <Nav />
       <div className="watch-container">
         <iframe
           id="watchdiv"

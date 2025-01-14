@@ -1,18 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Navbar() {
+function Navbar({profileUrl}) {
   return (
-    <div className="nav_bar">
-      <div className="links jkd">
-        <Link to="/" className="icon-home">
+    <div className="nav_barss">
+      <div className="linkss jkd">
+        <Link to="/" className="icons-home">
           <i className="fa-solid fa-house"></i>
+          <span className="navigator">Home</span>
         </Link>
-        <Link to="/search" className="icon-home">
-          <i className="fa-solid fa-magnifying-glass"></i>
+        <Link to="/search" className="icons-home">
+          <i className="fa-solid fa-newspaper"></i>
+          <span className="navigator">Upcoming</span>
+          
         </Link>
-        <Link to="/Activity" className="icon-home">
-          <i className="fa-solid fa-chart-simple"></i>
+        <Link to="/Account" className="icons-home">
+          <img className="downimg" src={profileUrl} />
+          <span className="navigator">Me</span>
         </Link>
       </div>
     </div>
