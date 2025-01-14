@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import Nav from "../components/Nav";
-
+import './watch.css'
 function Series() {
   const { id } = useParams();
   const location = useLocation();

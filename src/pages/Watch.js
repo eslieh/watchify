@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
+import './watch.css'
 function Watch() {
   const { id } = useParams(); // Get the movie ID from the URL parameter
   const [movie, setMovie] = useState(null);

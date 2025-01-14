@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
-
+import './watch.css'
 function Tv() {
   const { id } = useParams(); 
   const [series, setSeries] = useState(null);
