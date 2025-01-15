@@ -11,30 +11,30 @@
   <meta name="keywords" content="movies, streaming, subscription, no ads, offline downloads, HD streaming, Watchify" />
   <meta name="author" content="Eslieh Victor" />
   <meta name="google-site-verification" content="qKCxEt02GiLWqQSWWG9Xsxqlly8pMtglfugY-L-L8LE" />
-  
+
   <!-- Open Graph Meta Tags for Social Media -->
-  <meta property="og:title" content="Watchify - Stream Movies and TV Shows" />
-  <meta property="og:description" content="Watchify offers affordable subscription plans with no ads, offline downloads, and HD streaming on multiple devices." />
-  <meta property="og:image" content="https://image.tmdb.org/t/p/w500/yh64qw9mgXBvlaWDi7Q9tpUBAvH.jpg" />
-  <meta property="og:url" content="https://watchifyy.vercel.app/" />
+  <meta property="og:title" id="og-title" content="Watchify - Stream Movies and TV Shows" />
+  <meta property="og:description" id="og-description" content="Watchify offers affordable subscription plans with no ads, offline downloads, and HD streaming on multiple devices." />
+  <meta property="og:image" id="og-image" content="https://image.tmdb.org/t/p/w500/yh64qw9mgXBvlaWDi7Q9tpUBAvH.jpg" />
+  <meta property="og:url" id="og-url" content="https://watchifyy.vercel.app/" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_US" />
 
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Watchify - Stream Movies and TV Shows" />
-  <meta name="twitter:description" content="Watchify offers affordable subscription plans with no ads, offline downloads, and HD streaming on multiple devices." />
-  <meta name="twitter:image" content="https://image.tmdb.org/t/p/w500/yh64qw9mgXBvlaWDi7Q9tpUBAvH.jpg" />
+  <meta name="twitter:title" id="twitter-title" content="Watchify - Stream Movies and TV Shows" />
+  <meta name="twitter:description" id="twitter-description" content="Watchify offers affordable subscription plans with no ads, offline downloads, and HD streaming on multiple devices." />
+  <meta name="twitter:image" id="twitter-image" content="https://image.tmdb.org/t/p/w500/yh64qw9mgXBvlaWDi7Q9tpUBAvH.jpg" />
 
   <!-- Favicon -->
   <link rel="icon" href="%PUBLIC_URL%/favicon.png" />
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-  
+
   <!-- Manifest file for web app installation -->
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
   <title>Watchify</title>
-  
+
   <!-- Preconnect to optimize loading fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,11 +49,75 @@
 
   <!-- FontAwesome for Icons -->
   <script src="https://kit.fontawesome.com/e6755db976.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+
+  <script>
+    // Function to fetch dynamic title/meta data for TV shows and Movies
+    async function fetchDynamicMetaData(type, id) {
+      try {
+        const baseUrl = 'https://api.themoviedb.org/3/';
+        const apiKey = '589f8d3ada4c0c32b6db7671025e3162';
+        let url;
+
+        if (type === 'tv') {
+          url = `${baseUrl}tv/${id}?api_key=${apiKey}`;
+        } else if (type === 'movie') {
+          url = `${baseUrl}movie/${id}?api_key=${apiKey}`;
+        }
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        // Update the title
+        document.title = data.name || data.title;
+
+        // Update SEO Meta Tags
+        document.getElementById('desc').setAttribute('content', data.overview || 'Stream your favorite movies and TV shows anytime, anywhere.');
+        document.getElementById('og-title').setAttribute('content', data.name || data.title);
+        document.getElementById('og-description').setAttribute('content', data.overview || 'Watchify offers affordable subscription plans with no ads, offline downloads, and HD streaming on multiple devices.');
+        document.getElementById('og-image').setAttribute('content', `https://image.tmdb.org/t/p/w500${data.poster_path}`);
+        document.getElementById('og-url').setAttribute('content', `https://watchifyy.vercel.app/${type}/${id}`);
+        document.getElementById('twitter-title').setAttribute('content', data.name || data.title);
+        document.getElementById('twitter-description').setAttribute('content', data.overview || 'Watchify offers affordable subscription plans with no ads, offline downloads, and HD streaming on multiple devices.');
+        document.getElementById('twitter-image').setAttribute('content', `https://image.tmdb.org/t/p/w500${data.poster_path}`);
+      } catch (error) {
+        console.error('Error fetching dynamic meta data:', error);
+      }
+    }
+
+    // Check URL and call fetchDynamicMetaData for TV or Movie
+    function setMetaTags() {
+      const path = window.location.pathname;
+
+      if (path.includes('/tv/')) {
+        const id = path.split('/tv/')[1];
+        fetchDynamicMetaData('tv', id);
+      } else if (path.includes('/movie/')) {
+        const id = path.split('/movie/')[1];
+        fetchDynamicMetaData('movie', id);
+      } else {
+        // Use default meta tags if no TV or Movie path
+        document.title = 'Watchify - Stream Movies and TV Shows';
+        document.getElementById('desc').setAttribute('content', 'Watchify - Stream your favorite movies and TV shows anytime, anywhere. Affordable subscription plans with no ads.');
+        document.getElementById('og-title').setAttribute('content', 'Watchify - Stream Movies and TV Shows');
+        document.getElementById('og-description').setAttribute('content', 'Watchify offers affordable subscription plans with no ads, offline downloads, and HD streaming on multiple devices.');
+        document.getElementById('og-image').setAttribute('content', 'https://image.tmdb.org/t/p/w500/yh64qw9mgXBvlaWDi7Q9tpUBAvH.jpg');
+        document.getElementById('og-url').setAttribute('content', 'https://watchifyy.vercel.app/');
+        document.getElementById('twitter-title').setAttribute('content', 'Watchify - Stream Movies and TV Shows');
+        document.getElementById('twitter-description').setAttribute('content', 'Watchify offers affordable subscription plans with no ads, offline downloads, and HD streaming on multiple devices.');
+        document.getElementById('twitter-image').setAttribute('content', 'https://image.tmdb.org/t/p/w500/yh64qw9mgXBvlaWDi7Q9tpUBAvH.jpg');
+      }
+    }
+
+    // Call the function when the page loads
+    window.onload = setMetaTags;
+  </script>
+
 </body>
 
 </html>
