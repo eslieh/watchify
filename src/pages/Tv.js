@@ -1,17 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
-import './watch.css'
+import "./watch.css";
 function Tv() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [series, setSeries] = useState(null);
   const [error, setError] = useState(null);
   const [isInMyList, setIsInMyList] = useState(false);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [episodes, setEpisodes] = useState([]);
   const navigate = useNavigate();
+  const [userId, userid_i] = useState([]);
+  useEffect(() => {
+    // Check for user authentication data in localStorage
+    const userData = localStorage.getItem("user_data");
 
+    if (userData) {
+      const parsedData = JSON.parse(userData);
 
+      // Check if the data has expired
+      if (parsedData.expiry > Date.now()) {
+        sessionStorage.setItem("user_id", parsedData.user_id);
+        sessionStorage.setItem("profile", parsedData.profile);
+        userid_i(parsedData.user_id)
+        // Redirect to homepage if valid
+        // navigate("/");
+      } else {
+        // Remove expired data
+        localStorage.removeItem("user_data");
+      }
+    }
+  }, [navigate]);
+  console.log(userId);
 
   useEffect(() => {
     const fetchSeriesDetails = async () => {
@@ -75,7 +95,9 @@ function Tv() {
   };
 
   const truncateText = (text, maxLength) => {
-    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+    return text.length > maxLength
+      ? text.substring(0, maxLength) + "..."
+      : text;
   };
 
   const formatRuntime = (runtime) => {
@@ -140,7 +162,9 @@ function Tv() {
                   <div
                     key={episode.id}
                     className="episode-item"
-                    onClick={() => handleWatchEpisodeClick(episode.episode_number)}
+                    onClick={() =>
+                      handleWatchEpisodeClick(episode.episode_number)
+                    }
                   >
                     <div className="flex-details-conta">
                       <img
@@ -157,7 +181,9 @@ function Tv() {
                         </p>
                       </div>
                     </div>
-                    <p className="details-of-episode">{truncateText(episode.overview, 255)}</p>
+                    <p className="details-of-episode">
+                      {truncateText(episode.overview, 255)}
+                    </p>
                   </div>
                 ))}
               </div>
