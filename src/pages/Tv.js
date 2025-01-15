@@ -48,14 +48,73 @@ function Tv() {
           setSelectedSeason(data.seasons[0].season_number);
         }
 
+        // Remove existing meta tags before adding new ones
+        const metaTags = [
+          "og:title",
+          "og:description",
+          "og:image",
+          "og:url",
+          "og:type",
+          "og:locale",
+          "twitter:title",
+          "twitter:description",
+          "twitter:image",
+        ];
+
+        metaTags.forEach((tag) => {
+          const metaTag = document.querySelector(`meta[property="${tag}"], meta[name="${tag}"]`);
+          if (metaTag) {
+            metaTag.remove();
+          }
+        });
+
         // Update Open Graph meta tags
         document.title = `${data.name} - Watchify`; // Set the page title dynamically
-        document.querySelector('meta[property="og:title"]').setAttribute("content", data.name);
-        document.querySelector('meta[property="og:description"]').setAttribute("content", data.overview);
-        document.querySelector('meta[property="og:image"]').setAttribute("content", `https://image.tmdb.org/t/p/w500${data.poster_path}`);
-        document.querySelector('meta[property="og:url"]').setAttribute("content", `https://watchifyy.vercel.app/tv/${id}`);
-        document.querySelector('meta[property="og:type"]').setAttribute("content", "website");
-        document.querySelector('meta[property="og:locale"]').setAttribute("content", "en_US");
+        const metaTitle = document.createElement("meta");
+        metaTitle.setAttribute("property", "og:title");
+        metaTitle.setAttribute("content", data.name);
+        document.head.appendChild(metaTitle);
+        document.getElementById("desc").setAttribute("content", data.overview);
+        const metaDescription = document.createElement("meta");
+        metaDescription.setAttribute("property", "og:description");
+        metaDescription.setAttribute("content", data.overview);
+        document.head.appendChild(metaDescription);
+
+        const metaImage = document.createElement("meta");
+        metaImage.setAttribute("property", "og:image");
+        metaImage.setAttribute("content", `https://image.tmdb.org/t/p/w500${data.poster_path}`);
+        document.head.appendChild(metaImage);
+
+        const metaUrl = document.createElement("meta");
+        metaUrl.setAttribute("property", "og:url");
+        metaUrl.setAttribute("content", `https://watchifyy.vercel.app/tv/${id}`);
+        document.head.appendChild(metaUrl);
+
+        const metaType = document.createElement("meta");
+        metaType.setAttribute("property", "og:type");
+        metaType.setAttribute("content", "website");
+        document.head.appendChild(metaType);
+
+        const metaLocale = document.createElement("meta");
+        metaLocale.setAttribute("property", "og:locale");
+        metaLocale.setAttribute("content", "en_US");
+        document.head.appendChild(metaLocale);
+
+        const metaTwitterTitle = document.createElement("meta");
+        metaTwitterTitle.setAttribute("name", "twitter:title");
+        metaTwitterTitle.setAttribute("content", data.name);
+        document.head.appendChild(metaTwitterTitle);
+
+        const metaTwitterDescription = document.createElement("meta");
+        metaTwitterDescription.setAttribute("name", "twitter:description");
+        metaTwitterDescription.setAttribute("content", data.overview);
+        document.head.appendChild(metaTwitterDescription);
+
+        const metaTwitterImage = document.createElement("meta");
+        metaTwitterImage.setAttribute("name", "twitter:image");
+        metaTwitterImage.setAttribute("content", `https://image.tmdb.org/t/p/w500${data.poster_path}`);
+        document.head.appendChild(metaTwitterImage);
+
       } catch (error) {
         setError(error.message);
         console.error("Error fetching series details:", error);
