@@ -10,7 +10,7 @@ function Nav() {
                 className='back-button' 
                 onClick={() => navigate('/')}  // Navigate to the Home page
             >
-            <i className="fa-solid fa-chevron-left"></i>
+            <i class="fa-solid fa-arrow-left"></i>
             </button>
         </div>
     );

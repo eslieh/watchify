@@ -19,6 +19,9 @@ function Topbar({ profile }) {
   const handleProfileClick = () => {
     navigate("/account");
   };
+  const navigateToSearch = () => {
+    navigate("/search");
+  };
 
   const homeNav = () => {
     navigate("/");
@@ -42,7 +45,7 @@ function Topbar({ profile }) {
         <div className="right-stuffs">
           <div className="top-icons">
             <i className="fa-solid fa-house" onClick={homeNav}></i>
-            <i className="fa-solid fa-newspaper" onClick={homeNav}></i>
+            <i className="fa-solid fa-newspaper" onClick={navigateToSearch}></i>
           </div>
           <div className="hidden search">
             <Search />

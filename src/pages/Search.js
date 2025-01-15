@@ -1,5 +1,6 @@
 import React, { useState, useEffect }  from "react";
 import Topbar from "../components/Topbar";
+import Upcoming from "../components/Upcoming";
 function Search(){
     const userId =
     sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
@@ -13,7 +14,10 @@ function Search(){
       return;
     }})
     return(
-      <Topbar profile={userProfile} />
+      <>
+        <Topbar profile={userProfile} />
+        <Upcoming/>
+      </>
     )
 }
 export default Search;
