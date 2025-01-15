@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 import "./watch.css";
+
 function Tv() {
   const { id } = useParams();
   const [series, setSeries] = useState(null);
@@ -11,6 +12,7 @@ function Tv() {
   const [episodes, setEpisodes] = useState([]);
   const navigate = useNavigate();
   const [userId, userid_i] = useState([]);
+
   useEffect(() => {
     // Check for user authentication data in localStorage
     const userData = localStorage.getItem("user_data");
@@ -22,16 +24,13 @@ function Tv() {
       if (parsedData.expiry > Date.now()) {
         sessionStorage.setItem("user_id", parsedData.user_id);
         sessionStorage.setItem("profile", parsedData.profile);
-        userid_i(parsedData.user_id)
-        // Redirect to homepage if valid
-        // navigate("/");
+        userid_i(parsedData.user_id);
       } else {
         // Remove expired data
         localStorage.removeItem("user_data");
       }
     }
   }, [navigate]);
-  console.log(userId);
 
   useEffect(() => {
     const fetchSeriesDetails = async () => {
@@ -48,6 +47,15 @@ function Tv() {
         if (data.seasons && data.seasons.length > 0) {
           setSelectedSeason(data.seasons[0].season_number);
         }
+
+        // Update Open Graph meta tags
+        document.title = `${data.name} - Watchify`; // Set the page title dynamically
+        document.querySelector('meta[property="og:title"]').setAttribute("content", data.name);
+        document.querySelector('meta[property="og:description"]').setAttribute("content", data.overview);
+        document.querySelector('meta[property="og:image"]').setAttribute("content", `https://image.tmdb.org/t/p/w500${data.poster_path}`);
+        document.querySelector('meta[property="og:url"]').setAttribute("content", `https://watchifyy.vercel.app/tv/${id}`);
+        document.querySelector('meta[property="og:type"]').setAttribute("content", "website");
+        document.querySelector('meta[property="og:locale"]').setAttribute("content", "en_US");
       } catch (error) {
         setError(error.message);
         console.error("Error fetching series details:", error);

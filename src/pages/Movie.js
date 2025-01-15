@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet"; // Import react-helmet
 import Nav from "../components/Nav";
 import "./watch.css";
+
 function Movie() {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
@@ -9,6 +11,7 @@ function Movie() {
   const [isInMyList, setIsInMyList] = useState(false); // State to track if the movie is in the user's list
   const navigate = useNavigate();
   const [userId, userid_i] = useState([]);
+
   useEffect(() => {
     // Check for user authentication data in localStorage
     const userData = localStorage.getItem("user_data");
@@ -29,7 +32,7 @@ function Movie() {
       }
     }
   }, [navigate]);
-  console.log(userId);
+
   useEffect(() => {
     // Fetch movie details using the provided movie id
     const fetchMovieDetails = async () => {
@@ -96,14 +99,13 @@ function Movie() {
     const action = isInMyList ? "remove" : "add"; // Decide whether to add or remove
 
     try {
-      console.log(userId);
       const postData = {
         user_id: userId,
         movie_id: id,
         title: movie.title, // Include the movie title
         thumb_url: `https://image.tmdb.org/t/p/w500${movie.poster_path}`, // Include the thumbnail URL
       };
-      console.log(postData);
+
       // Make a POST request to your PHP backend to add or remove the movie
       const response = await fetch(
         `https://fueldash.net/watchify/userdata/mylist.php?action=${action}&user_id=${userId}&movie_id=${id}`,
@@ -138,16 +140,34 @@ function Movie() {
   if (!movie) {
     return <div id="load">Loading...</div>; // Display loading state if movie data is not yet fetched
   }
+
+  // Construct the OG meta content dynamically
+  const ogImage = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+  const ogUrl = `https://watchifyy.vercel.app/movie/${id}`;
+  const ogTitle = movie.title || "Watchify - Stream Movies and TV Shows";
+  const ogDescription = movie.overview || "Watchify offers affordable subscription plans with no ads, offline downloads, and HD streaming on multiple devices.";
+
   const link = `https://wa.me/?text=Watch this https://watchifyy.vercel.app/movie/${id}`;
+
   return (
     <>
+      {/* Update the meta tags dynamically */}
+      <Helmet>
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={ogUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="en_US" />
+      </Helmet>
+
       <Nav />
       <div className="movie-card-pop-s">
         <div className="movie-data-details">
           <div className="card-image">
             <img
               className="cardim"
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} // Use smaller image size (w500)
+              src={ogImage} // Use smaller image size (w500)
               alt={movie.title}
             />
           </div>
@@ -181,7 +201,7 @@ function Movie() {
                     className="watchNow"
                     title={"Share"} // Show helper text
                   >
-                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    <i className="fa-solid fa-arrow-up-from-bracket"></i>
                     Share
                   </button>
                 </a>
