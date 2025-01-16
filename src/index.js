@@ -14,7 +14,8 @@ import Search from './pages/Search.js';
 import Subscribe from './pages/Subscribe.js';
 import Series from './pages/Series.js';
 import Movie from './pages/Movie.js';
-import Tv from './pages/Tv.js'
+import Tv from './pages/Tv.js';
+import { Analytics } from "@vercel/analytics/react"
 const router = createBrowserRouter([
   {
     path: "/",
