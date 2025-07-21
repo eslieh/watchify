@@ -951,7 +951,10 @@ span.release-month {
   text-align: center;
   margin-top: -13px;
 }
-
+.list.trending {
+    background: #211f1f;
+    margin-top: -2px;
+}
 @media screen and (max-width: 600px) {
   .hidden-search {
     position: fixed;

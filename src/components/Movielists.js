@@ -67,7 +67,7 @@ function Trending() {
       )}
 
       <h2 className="header-text">Movies</h2>
-      <div className="list">
+      <div className="list trending">
         {trendingMovies.map((movie) => (
           <div
             key={movie.id}
@@ -84,7 +84,7 @@ function Trending() {
       </div>
 
       <h2 className="header-text">TV Shows</h2>
-      <div className="list">
+      <div className="list trending">
         {trendingTVShows.map((tvShow) => (
           <div
             key={tvShow.id}
