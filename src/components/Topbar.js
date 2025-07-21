@@ -48,9 +48,9 @@ function Topbar({ profile }) {
             <i className="fa-solid fa-newspaper" onClick={navigateToSearch}></i>
           </div>
           <div className="hidden search">
-            <Search />
+            
           </div>
-          <div className="user-details">
+          {/* <div className="user-details">
             <img
               className="userimge"
               src={profileUrl}
@@ -58,7 +58,7 @@ function Topbar({ profile }) {
               onClick={handleProfileClick}
               style={{ cursor: "pointer" }}
             />
-          </div>
+          </div> */}
           <div className="search-button" onClick={handleShow}>
             <i className="fa-solid fa-magnifying-glass"></i>
           </div>
@@ -75,7 +75,10 @@ function Topbar({ profile }) {
           <Search />
         </div>
       )}
+      
       <Navbar profileUrl={profileUrl} />
+      <div className="hidden-mobile-search"><Search /></div>
+      
     </>
   );
 }

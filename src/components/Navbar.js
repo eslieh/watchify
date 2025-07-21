@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Navbar({profileUrl}) {
+function Navbar() {
   return (
     <div className="nav_barss">
       <div className="linkss jkd">
@@ -12,12 +12,11 @@ function Navbar({profileUrl}) {
         <Link to="/search" className="icons-home">
           <i className="fa-solid fa-newspaper"></i>
           <span className="navigator">Upcoming</span>
-          
         </Link>
-        <Link to="/Account" className="icons-home">
+        {/* <Link to="/Account" className="icons-home">
           <img className="downimg" src={profileUrl} />
           <span className="navigator">Me</span>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

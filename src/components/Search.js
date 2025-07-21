@@ -118,10 +118,6 @@ function Search() {
                     alt={title.name || title.title} // Use name for TV shows and title for movies
                     className="imag-lists"
                   />
-                  <div className="title-name">
-                    {title.name || title.title}{" "}
-                    {/* Show name for series, title for movies */}
-                  </div>
                 </div>
               ))
             ) : (

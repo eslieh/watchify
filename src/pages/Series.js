@@ -1,205 +1,45 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import React from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
-import './watch.css'
+import "./watch.css"; // keep your styles (rename if you split movie vs series later)
+
 function Series() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const [series, setSeries] = useState(null);
-  const [totalEpisodes, setTotalEpisodes] = useState(0);
-  const [seasonData, setSeasonData] = useState(null);
-  const [generalD, generalDetailes] = useState(null);
-  const [subscriptionDetails, setSubscriptionDetails] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  const userId =
-    sessionStorage.getItem("user_id") || localStorage.getItem("user_id");
-  const userProfile =
-    sessionStorage.getItem("profile") || localStorage.getItem("profile");
-  useEffect(() => {
-    // Dynamically load hider.css only when the page is loaded
-    const hiderCss = document.createElement("link");
-    hiderCss.rel = "stylesheet";
-    hiderCss.href = "./hider.css"; // Path to your hider.css file
-    document.head.appendChild(hiderCss);
+  // Parse ?s= & ?e= from query string; default to season 1, episode 1
+  const urlParams = new URLSearchParams(location.search);
+  const season = urlParams.get("s") || "1";
+  const episode = urlParams.get("e") || "1";
 
-    // Clean up by removing the stylesheet when the page is closed or the component is unmounted
-    return () => {
-      document.head.removeChild(hiderCss);
-    };
-  }, []);
-  useEffect(() => {
-    if (!userId || !userProfile) {
-      window.location.href = "/auth"; // Redirect to login
-      return;
-    }
-
-    // Fetch subscription details
-    fetchSubscriptionData();
-
-    // Parse query parameters for season and episode
-    const urlParams = new URLSearchParams(location.search);
-    const season = urlParams.get("s");
-    const episode = urlParams.get("e");
-    const fetchGeneralSeriesDetails = async () => {
-      const API_KEY = "589f8d3ada4c0c32b6db7671025e3162";
-      const URL = `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}&language=en-US`;
-
-      try {
-        const response = await fetch(URL);
-        if (!response.ok) {
-          throw new Error(`TMDb API Error: ${response.statusText}`);
-        }
-        const data = await response.json();
-        generalDetailes(data);
-      } catch (error) {
-        console.error("Error fetching general series details:", error);
-      }
-    };
-    fetchGeneralSeriesDetails();
-
-    const fetchSeriesDetails = async () => {
-      const API_KEY = "589f8d3ada4c0c32b6db7671025e3162";
-      const BASE_URL = `https://api.themoviedb.org/3/tv/${id}/season/${season}?api_key=${API_KEY}&language=en-US`;
-
-      try {
-        const response = await fetch(BASE_URL);
-        if (!response.ok) {
-          throw new Error(`TMDb API Error: ${response.statusText}`);
-        }
-        const data = await response.json();
-        setSeries(data);
-        setSeasonData(data);
-        postWatchData(data);
-        setTotalEpisodes(data.episodes.length);
-      } catch (error) {
-        console.error("Error fetching series details:", error);
-      }
-    };
-
-    fetchSeriesDetails();
-  }, [id, userId, userProfile, location.search]);
-  console.log(series);
-  const fetchSubscriptionData = async () => {
-    try {
-      const response = await fetch(
-        `https://fueldash.net/watchify/userdata/subscription_data.php?user_id=${userId}`
-      );
-      const data = await response.json();
-      setSubscriptionDetails(data[0]);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching subscription details:", error);
-      setLoading(false);
-    }
+  // Simple navigation helpers (no bounds checking; purely client-side)
+  const goToEpisode = (s, e) => {
+    navigate(`/series/${id}?s=${s}&e=${e}`);
   };
 
-  const postWatchData = async (seriesData) => {
-    // Extract season and episode from query parameters
-    const urlParams = new URLSearchParams(location.search);
-    const season = urlParams.get("s");
-    const episode = urlParams.get("e");
-    const watchData = {
-      user_id: userId,
-      movie_id: id,
-      length: seriesData.episode_run_time?.[0] || 0,
-      movie_thumb: `https://image.tmdb.org/t/p/w500${seriesData.poster_path}`,
-      season_number: parseInt(season, 10), // Ensure season number is an integer
-      episode_number: parseInt(episode, 10), // Ensure episode number is an integer
-    };
-
-    console.log(watchData);
-
-    try {
-      const response = await fetch(
-        `https://fueldash.net/watchify/userdata/streamdata.php`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(watchData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to post watch data to backend");
-      }
-      console.log("Watch data posted successfully:", await response.json());
-    } catch (error) {
-      console.error("Error posting watch data:", error);
+  const handlePrev = () => {
+    const currentE = parseInt(episode, 10);
+    if (currentE > 1) {
+      goToEpisode(season, currentE - 1);
     }
+    // If you want to roll back to previous season when ep===1, add logic here.
   };
 
-  const changeEpisode = (direction) => {
-    const urlParams = new URLSearchParams(location.search);
-    let season = parseInt(urlParams.get("s") || "1");
-    let episode = parseInt(urlParams.get("e") || "1");
-
-    if (direction === "next") {
-      if (episode < totalEpisodes) {
-        episode += 1;
-      } else if (seasonData && season < seasonData.season_number) {
-        season += 1;
-        episode = 1;
-      }
-    } else if (direction === "prev" && episode > 1) {
-      episode -= 1;
-    }
-
-    navigate(`/series/${id}?s=${season}&e=${episode}`);
+  const handleNext = () => {
+    const currentE = parseInt(episode, 10);
+    goToEpisode(season, currentE + 1);
+    // Add season rollover logic later if desired.
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  // Check if subscription is expired or needs renewal
-  const currentDate = new Date();
-  const nextBillingDate = new Date(subscriptionDetails?.next_billing_date);
-  const isSubscriptionExpired = currentDate > nextBillingDate;
-
-  if (isSubscriptionExpired) {
+  if (!id) {
     return (
       <>
         <Nav />
-        <div className="subscription_prompt">
-          <div className="subscription-prompt">
-            <h2>Your subscription has expired</h2>
-            <p>Subscribe to continue watching!</p>
-            <div className="continue-watching"></div>
-            <button onClick={() => navigate("/subscription")}>
-              Subscribe Now
-            </button>
-          </div>
-        </div>
-        {series && (
-          <>
-            <img
-              src={`https://image.tmdb.org/t/p/original/${generalD.backdrop_path}`}
-              alt={generalD.title}
-              className="series-thumb"
-            />
-          </>
-        )}
+        <div className="watch-container">No series ID provided.</div>
       </>
     );
   }
-
-  if (!series) {
-    return <div>Loading...</div>;
-  }
-
-  const urlParams = new URLSearchParams(location.search);
-  const season = urlParams.get("s");
-  const episode = urlParams.get("e");
-
-  const hasNextEpisode =
-    totalEpisodes > 0 &&
-    (episode < totalEpisodes ||
-      (seasonData && season < seasonData.season_number));
-  const hideNextButton = !hasNextEpisode;
 
   return (
     <>
@@ -209,22 +49,20 @@ function Series() {
           id="watchdiv"
           className="player"
           src={`https://www.2embed.cc/embedtv/${id}&s=${season}&e=${episode}`}
-          title="Series Player"
+          title={`Series Player S${season}E${episode}`}
           allowFullScreen
-        ></iframe>
+        />
         <div className="navigation-buttons">
           <button
             className="navbtns"
-            onClick={() => changeEpisode("prev")}
-            disabled={episode <= 1}
+            onClick={handlePrev}
+            disabled={parseInt(episode, 10) <= 1}
           >
-            <i className="fa-solid fa-chevron-left"></i>
+            <i className="fa-solid fa-chevron-left" />
           </button>
-          {!hideNextButton && (
-            <button className="navbtns" onClick={() => changeEpisode("next")}>
-              <i className="fa-solid fa-chevron-right"></i>
-            </button>
-          )}
+          <button className="navbtns" onClick={handleNext}>
+            <i className="fa-solid fa-chevron-right" />
+          </button>
         </div>
       </div>
     </>
@@ -232,4 +70,3 @@ function Series() {
 }
 
 export default Series;
-// vick is the great

@@ -22,6 +22,14 @@ img.back-image {
   z-index: -5;
   filter: blur(4px);
 }
+iframe.trailer-video {
+  position: absolute;
+  z-index: 5;
+  border: navajowhite;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
 .listse {
   background: #1f1e1df7;
   display: flex;
@@ -98,8 +106,8 @@ div#load {
   background: transparent;
   backdrop-filter: blur(0px);
   transition: background 0.3s ease, backdrop-filter 0.3s ease;
+  padding-right: 317px;
 }
-
 /* Styling when scrolled */
 .topbar.scrolled {
   background: #87878742;
@@ -128,10 +136,42 @@ img.userimge {
   padding: 14px;
   padding-left: 38px;
   border-radius: 38px;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(22px);
   color: white;
   outline: none;
 }
+
+.skeleton {
+  width: 100%;
+  height: 250px;
+  background: linear-gradient(90deg, #ddd, #eee, #ddd);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.2s infinite;
+  border-radius: 8px;
+}
+
+.hidden {
+  display: none;
+}
+
+.title-barners {
+  background: linear-gradient(90deg, #dddddd30, #abaaaa2e, #dddddd30);
+  background-size: 200% 100%;
+  border-radius: 17px;
+  animation: skeleton-loading 1.2s infinite;
+  height: 100%;
+  width: 100%;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 button.searchbtn {
   border: navajowhite;
   background: transparent;
@@ -208,7 +248,6 @@ h2.header-text {
 }
 
 .list {
-  background: #1f1e1df7;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   padding: 11px 32px 32px;
@@ -232,6 +271,14 @@ img.imag-lists {
   transition: all ease 0.2s;
 }
 
+.search-cint {
+  margin-top: 18px;
+  position: fixed;
+  width: fit-content;
+  z-index: 500;
+  right: 0;
+  margin-right: 11px;
+}
 .movie-card-pop {
   position: fixed;
   height: 100vh;
@@ -243,7 +290,7 @@ img.imag-lists {
   place-content: center;
   align-items: center;
   left: 0;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(8px);
 }
 
 .subscription_prompt {
@@ -399,18 +446,19 @@ p.result-texte {
 
 .search-wrapper-info {
   right: 0;
-  position: absolute;
-  top: 12vh;
+  position: fixed;
+  top: 0vh;
   border-radius: 0px;
-  height: 88vh;
+  height: 100vh;
   overflow: auto;
   margin: 0;
-  box-shadow: 0 0 6px gray;
-  background: #1d1c1b;
+  background: transparent;
   padding: 34px;
   width: 100%;
+  backdrop-filter: blur(26px);
+  z-index: 178;
+  padding-top: 10vh;
 }
-
 .search-wrapper-info .list {
   padding: 0px;
 }
@@ -909,9 +957,10 @@ span.release-month {
     position: fixed;
     width: 100%;
     height: 100vh;
-    background: #2a2320;
+    background: #2a232030;
     z-index: 50;
     padding: 10px;
+    backdrop-filter: blur(29px);
   }
   .hidden-search .search-button {
     position: absolute;
@@ -953,21 +1002,24 @@ span.release-month {
     display: flex;
     position: fixed;
     bottom: 0;
-    width: 100%;
-    height: 8vh;
+    width: 101%;
+    height: 11vh;
     align-items: center;
     justify-content: center;
-    background: #87878742;
-    backdrop-filter: blur(17px);
     z-index: 9;
   }
 
   .linkss.jkd {
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    padding-left: 25px;
-    padding-right: 25px;
+    width: 83%;
+    background: #87878742;
+    backdrop-filter: blur(17px);
+    padding: 9px;
+    box-shadow: 0 0 37px black;
+    border-radius: 48px;
+    padding-right: 37px;
+    padding-left: 37px;
   }
 
   a.icons-home {
@@ -1052,15 +1104,21 @@ span.release-month {
     margin-right: 11px;
     font-size: 21px;
     display: flex;
+    position: fixed;
+    right: 5%;
   }
   .movie-name {
     font-size: 34px;
     font-weight: 600;
   }
+
+  .hidden-mobile-search {
+    display: none;
+  }
   .search-cint {
     position: absolute;
-    left: 3vh;
-    top: 10vh;
+    left: 4vh;
+    top: 7vh;
   }
   .flex-subscription {
     display: grid;
@@ -1086,8 +1144,10 @@ span.release-month {
     overflow: auto;
     margin: 0%;
     box-shadow: none;
-    background: #292320;
     padding: 9px;
+    width: 100%;
+    backdrop-filter: blur(26px);
+    z-index: 178;
   }
   .movie-description {
     font-size: 14px;
@@ -1117,7 +1177,6 @@ span.release-month {
   .list {
     position: relative;
     z-index: 5;
-    background: #1f1e1df7;
     display: grid;
     padding: 13px;
     grid-template-columns: repeat(2, 1fr);
