@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Moviecard from "./Moviecard";
 import Seriescard from "./Seriescard";
+import ContinueWatchingSection from "./ContinueWatchingSection";
 
 function Trending() {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -57,14 +58,17 @@ function Trending() {
   }
 
   return (
-    <div className="about-indo">
-      {/* Render Moviecard or Seriescard based on the selected item type */}
-      {selectedItemId && selectedItemType === "movie" && (
+    <>
+     {/* Render Moviecard or Seriescard based on the selected item type */}
+     {selectedItemId && selectedItemType === "movie" && (
         <Moviecard id={selectedItemId} />
       )}
       {selectedItemId && selectedItemType === "tv" && (
         <Seriescard id={selectedItemId} />
       )}
+      <div className="about-indo">
+      <ContinueWatchingSection maxItems={10} />
+      
 
       <h2 className="header-text">Movies</h2>
       <div className="list trending">
@@ -100,6 +104,8 @@ function Trending() {
         ))}
       </div>
     </div>
+    </>
+    
   );
 }
 

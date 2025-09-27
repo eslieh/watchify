@@ -35,7 +35,9 @@ function Moviecard({ id }) {
   };
 
   const handleWatchClick = () => {
-    navigate(`/watch/${id}`);
+    const movieTitle = movie?.title ? encodeURIComponent(movie.title) : '';
+    const titleParam = movieTitle ? `?title=${movieTitle}` : '';
+    navigate(`/watch/${id}${titleParam}`);
   };
 
   if (error) {
@@ -53,7 +55,7 @@ function Moviecard({ id }) {
         <div className="card-image">
           <img
             className="cardim"
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
             alt={movie.title}
           />
         </div>

@@ -86,7 +86,9 @@ function Movie() {
 
   // Function to handle Watch button click, navigating to the /watch page with the movie id
   const handleWatchClick = () => {
-    navigate(`/watch/${id}`); // Redirect to the /watch page with the movie id
+    const movieTitle = movie?.title ? encodeURIComponent(movie.title) : '';
+    const titleParam = movieTitle ? `?title=${movieTitle}` : '';
+    navigate(`/watch/${id}${titleParam}`); // Redirect to the /watch page with the movie id
   };
 
   // Function to handle add/remove from My List

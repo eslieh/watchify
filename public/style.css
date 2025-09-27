@@ -6,6 +6,18 @@
   text-decoration: none;
   font-family: "Poppins", sans-serif;
 }
+/* --- Global Backdrop Blur Helper --- */
+:root {
+  /* default blur strength */
+  --blur-strength: 10px;
+}
+
+/* utility class for blur overlays */
+.backdrop-blur {
+  backdrop-filter: blur(var(--blur-strength));
+  -webkit-backdrop-filter: blur(var(--blur-strength)); /* Safari */
+  background-color: rgba(0, 0, 0, 0.3); /* transparent so blur is visible */
+}
 a {
   color: inherit;
 }
@@ -14,6 +26,16 @@ body {
   color: white;
 }
 
+
+
+.about-indo {
+  position: absolute;
+  z-index: 22;
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 0 74px #000000;
+  width: 100%;
+}
 img.back-image {
   position: fixed;
   width: 100%;
@@ -22,13 +44,341 @@ img.back-image {
   z-index: -5;
   filter: blur(4px);
 }
+.trailer-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
 iframe.trailer-video {
   position: absolute;
   z-index: 5;
-  border: navajowhite;
+  border: none;
   width: 100%;
   height: 100%;
   background: transparent;
+}
+
+.close-trailer {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: white;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.close-trailer:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+/* Mobile Movie Card Styles */
+.movie-card-mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #000;
+  z-index: 1000;
+  overflow-y: auto;
+  color: white;
+}
+
+.close-movie-card {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: white;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.close-movie-card:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.movie-banner {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.play-overlay:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.movie-details-mobile {
+  padding: 20px;
+  background: #000;
+}
+
+.movie-title-mobile {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 0 15px 0;
+  color: white;
+}
+
+.movie-metadata {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.movie-metadata span {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.year {
+  color: white;
+}
+
+.rating {
+  background: #333;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.duration {
+  color: #ccc;
+}
+
+.hd-badge {
+  background: #333;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.subtitle-icon {
+  color: #ccc;
+  font-size: 16px;
+}
+
+.action-buttons-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.play-btn-mobile {
+  background: white;
+  color: black;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.play-btn-mobile:hover {
+  background: #e6e6e6;
+}
+
+.download-btn-mobile {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.download-btn-mobile:hover {
+  background: #444;
+}
+
+.movie-synopsis {
+  margin-bottom: 20px;
+}
+
+.movie-synopsis p {
+  color: #ccc;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.cast-info {
+  margin-bottom: 30px;
+}
+
+.cast-info p {
+  color: #ccc;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.interaction-icons {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0;
+  border-top: 1px solid #333;
+}
+
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.icon-item:hover {
+  color: #ccc;
+}
+
+.icon-item i {
+  font-size: 20px;
+}
+
+.icon-item span {
+  font-size: 12px;
+  color: #ccc;
+}
+
+.icon-item a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-item a:hover {
+  color: #ccc;
+}
+
+/* Trailer Elements for Mobile Movie Card */
+.trailer-container-mobile {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
+
+.trailer-video-mobile {
+  position: absolute;
+  z-index: 5;
+  border: none;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+.toggle-trailer {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: white;
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-trailer:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.trailer-indicator {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.8);
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.trailer-indicator:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.trailer-indicator i {
+  font-size: 16px;
 }
 .listse {
   background: #1f1e1df7;
@@ -102,7 +452,7 @@ div#load {
   align-items: center;
   position: fixed;
   width: 100%;
-  z-index: 12;
+  z-index: 23;
   background: transparent;
   backdrop-filter: blur(0px);
   transition: background 0.3s ease, backdrop-filter 0.3s ease;
@@ -112,6 +462,7 @@ div#load {
 .topbar.scrolled {
   background: #87878742;
   backdrop-filter: blur(17px);
+  -webkit-backdrop-filter: blur(17px);
 }
 img.userimge {
   width: 41px;
@@ -137,6 +488,7 @@ img.userimge {
   padding-left: 38px;
   border-radius: 38px;
   backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
   color: white;
   outline: none;
 }
@@ -191,15 +543,15 @@ img.barner-imamge {
   width: 100%;
   height: 100vh;
 }
-
 .movie-details {
-  position: absolute;
+  position: fixed;
   z-index: 7;
   top: 0;
   width: 100%;
   height: 100vh;
   background: linear-gradient(9deg, #1f1e1d, transparent);
-  display: flex;
+  display: flex
+;
   align-items: end;
   padding: 3%;
   padding-bottom: 10%;
@@ -214,11 +566,13 @@ img.barner-imamge {
   font-weight: 300;
   width: 79%;
 }
-.action-btns {
-  display: flex;
-  gap: 13px;
-}
 
+.action-btns {
+  display: flex
+;
+  gap: 13px;
+  padding-top: 10px;
+}
 button.Morein {
   background: transparent;
   color: white;
@@ -243,7 +597,6 @@ button#watch:hover {
 
 h2.header-text {
   position: relative;
-  background: #211f1f;
   padding-left: 5%;
 }
 
@@ -279,6 +632,7 @@ img.imag-lists {
   right: 0;
   margin-right: 11px;
 }
+
 .movie-card-pop {
   position: fixed;
   height: 100vh;
@@ -286,13 +640,14 @@ img.imag-lists {
   top: 0;
   z-index: 500;
   background: #1f1e1d00;
-  display: flex;
+  display: flex
+;
   place-content: center;
   align-items: center;
   left: 0;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
-
 .subscription_prompt {
   display: grid;
   height: 100vh;
@@ -307,6 +662,7 @@ img.imag-lists {
   padding: 13px;
   border-radius: 21px;
   backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
   box-shadow: 0 0 15px gray;
 }
 
@@ -352,16 +708,27 @@ button.navbtns {
   font-size: 39px;
   border: none;
   background: no-repeat;
+  cursor: pointer;
   color: white;
 }
+
 .navigation-buttons {
   position: fixed;
   z-index: 50;
-  top: 10%;
+  bottom: 10%;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 12px;
+  align-items: center;
+  display: flex
+;
+}
+
+.navigation-buttons-inner {
+  display: flex
+;
+  align-items: center;
+  gap: 25px;
 }
 .movie-info {
   margin-top: -84vh;
@@ -395,15 +762,41 @@ button.watchNow {
   border: 2px solid white;
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 9px; 
 }
-
 button.back-button {
   border: none;
-  background: transparent;
   font-size: 28px;
   color: white;
   padding: 6px;
+  width: 70px;
+  height: 50px;
+  backdrop-filter: blur(39px);
+  -webkit-backdrop-filter: blur(39px);
+  background: transparent;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.navigation-buttons-inner {
+  display: flex
+;
+  align-items: center;
+  gap: 25px;
+  backdrop-filter: blur(50px);
+  padding-left: 17px;
+  padding-right: 17px;
+  border-radius: 56px;
+  box-shadow: 0 0 16px black;
+  -webkit-backdrop-filter: blur(50px);
+}
+
+span.movie_data_details {
+  font-size: 20px;
+}
+
+span.movie_data_details_title {
+  font-weight: 700;
 }
 button.watchNow:hover {
   border: 2px solid white;
@@ -411,6 +804,7 @@ button.watchNow:hover {
   color: white;
   transition: all ease 0.8s;
   backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 .cancelbt {
   display: flex;
@@ -421,6 +815,7 @@ button.cancel:hover {
   background: #201e1d;
   transition: all ease 0.8s;
   backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 button.cancel {
   border: none;
@@ -456,6 +851,7 @@ p.result-texte {
   padding: 34px;
   width: 100%;
   backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
   z-index: 178;
   padding-top: 10vh;
 }
@@ -818,6 +1214,7 @@ img.series-thumb {
   display: grid;
   place-content: center;
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 .forgot-password-modal form {
   display: grid;
@@ -836,6 +1233,8 @@ img.series-thumb {
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .top-navigator {
@@ -951,7 +1350,11 @@ span.release-month {
   text-align: center;
   margin-top: -13px;
 }
-
+.list.trending {
+  margin-top: -2px;
+  backdrop-filter: blur(65px);
+  -webkit-backdrop-filter: blur(65px);
+}
 @media screen and (max-width: 600px) {
   .hidden-search {
     position: fixed;
@@ -961,6 +1364,7 @@ span.release-month {
     z-index: 50;
     padding: 10px;
     backdrop-filter: blur(29px);
+    -webkit-backdrop-filter: blur(29px);
   }
   .hidden-search .search-button {
     position: absolute;
@@ -1006,7 +1410,7 @@ span.release-month {
     height: 11vh;
     align-items: center;
     justify-content: center;
-    z-index: 9;
+    z-index: 23;
   }
 
   .linkss.jkd {
@@ -1015,6 +1419,7 @@ span.release-month {
     width: 83%;
     background: #87878742;
     backdrop-filter: blur(17px);
+    -webkit-backdrop-filter: blur(17px);
     padding: 9px;
     box-shadow: 0 0 37px black;
     border-radius: 48px;
@@ -1049,6 +1454,7 @@ span.release-month {
     gap: 14px;
     border-radius: 41px;
     backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
     box-shadow: 0 0 15px black;
     width: 48%;
     justify-content: space-around;
@@ -1147,6 +1553,7 @@ span.release-month {
     padding: 9px;
     width: 100%;
     backdrop-filter: blur(26px);
+    -webkit-backdrop-filter: blur(26px);
     z-index: 178;
   }
   .movie-description {
@@ -1163,17 +1570,18 @@ span.release-month {
   }
 
   .movie-details {
-    position: absolute;
+    position: fixed;
     z-index: 7;
     top: 0;
     width: 100%;
     height: 100vh;
     background: linear-gradient(9deg, #1f1e1d, transparent);
-    display: flex;
+    display: flex
+;
     align-items: end;
     padding: 5%;
     padding-bottom: 18%;
-  }
+}
   .list {
     position: relative;
     z-index: 5;
@@ -1182,4 +1590,260 @@ span.release-month {
     grid-template-columns: repeat(2, 1fr);
     padding-top: 11px;
   }
+}
+
+/* Continue Watching Styles */
+
+.continue-watching-section {
+  margin: 20px 0;
+  padding: 0 20px;
+  backdrop-filter: blur(65px);
+  -webkit-backdrop-filter: blur(65px);
+}
+
+.section-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  padding-left: 5px;
+}
+
+.continue-items-container {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding: 10px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #666 #1f1e1d;
+}
+
+.continue-items-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.continue-items-container::-webkit-scrollbar-track {
+  background: #1f1e1d;
+  border-radius: 4px;
+}
+
+.continue-items-container::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 4px;
+}
+
+.continue-items-container::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.continue-item {
+  flex: 0 0 200px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.continue-item:hover {
+  transform: scale(1.05);
+}
+
+.continue-poster {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.continue-poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.continue-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.continue-item:hover .continue-overlay {
+  opacity: 1;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  border: none;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.remove-btn:hover {
+  background: rgba(255, 0, 0, 0.8);
+}
+
+.play-btn {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1f1e1d;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+.play-btn:hover {
+  transform: scale(1.1);
+}
+
+.episode-info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.continue-info {
+  padding: 10px 0;
+}
+
+.continue-title {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.continue-episode {
+  color: #ccc;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+/* Skeleton loading styles */
+.continue-item-skeleton {
+  flex: 0 0 200px;
+}
+
+.skeleton-poster {
+  width: 100%;
+  height: 280px;
+  background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Update existing continue watching styles */
+.movie-barners {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.movie-barners:hover {
+  transform: scale(1.05);
+}
+
+.continue-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.movie-barners:hover .continue-overlay {
+  opacity: 1;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  border: none;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.remove-btn:hover {
+  background: rgba(255, 0, 0, 0.8);
+}
+
+.episode-info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+
+button.navbtns {
+  padding: 3px;
+  font-size: 39px;
+  border: none;
+  background: no-repeat;
+  cursor: pointer;
+  color: white;
+}
+
+button.navbtns:disabled {
+  color: #8080805e;
 }

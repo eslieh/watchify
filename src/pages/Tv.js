@@ -86,7 +86,8 @@ function Tv() {
   };
 
   const handleWatchEpisodeClick = (episodeNumber) => {
-    navigate(`/series/${id}?s=${selectedSeason}&e=${episodeNumber}`);
+    const seriesTitle = series?.name ? encodeURIComponent(series.name) : '';
+    navigate(`/series/${id}?s=${selectedSeason}&e=${episodeNumber}&title=${seriesTitle}`);
   };
 
   const handleSeasonChange = (seasonNumber) => {

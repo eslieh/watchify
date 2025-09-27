@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getContinueWatchingItems, removeWatchProgress } from "../utils/watchData";
 
-function Continue() {
+// A dedicated continue watching section for the home page
+// Shows a horizontal scrollable list of continue watching items
+function ContinueWatchingSection({ maxItems = 10 }) {
   const navigate = useNavigate();
   const [continueItems, setContinueItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [thumbnails, setThumbnails] = useState({});
 
   // Function to fetch movie or series thumbnail from TMDb API
@@ -33,7 +34,7 @@ function Continue() {
   // Load continue watching items from cookies
   useEffect(() => {
     try {
-      const items = getContinueWatchingItems();
+      const items = getContinueWatchingItems().slice(0, maxItems);
       setContinueItems(items);
       
       // Fetch thumbnails for items that don't have them
@@ -46,82 +47,95 @@ function Continue() {
       setLoading(false);
     } catch (error) {
       console.error("Error loading continue watching items:", error);
-      setError("Failed to load continue watching items");
       setLoading(false);
     }
-  }, []);
-  
+  }, [maxItems]);
+
   // Handle click on a continue watching item
   const handleItemClick = (item) => {
-    console.log(`Clicked on ${item.type} with ID: ${item.id}`);
-    
     if (item.type === 'series') {
-      // Navigate to series page with current season and episode
       const seriesTitle = item.title ? encodeURIComponent(item.title) : '';
       const titleParam = seriesTitle ? `&title=${seriesTitle}` : '';
       navigate(`/series/${item.id}?s=${item.currentSeason}&e=${item.currentEpisode}${titleParam}`);
     } else {
-      // Navigate to movie page
-      navigate(`/watch/${item.id}`);
+      const movieTitle = item.title ? encodeURIComponent(item.title) : '';
+      const titleParam = movieTitle ? `?title=${movieTitle}` : '';
+      navigate(`/watch/${item.id}${titleParam}`);
     }
   };
 
   // Handle removing an item from continue watching
   const handleRemoveItem = (item, e) => {
-    e.stopPropagation(); // Prevent triggering the click event
+    e.stopPropagation();
     removeWatchProgress(item.id, item.type);
     setContinueItems(prev => prev.filter(i => i.id !== item.id));
   };
 
-  // If there's an error, display it
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  // If still loading, show a loading message
+  // If loading, show skeleton
   if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  // If no items to continue watching
-  if (continueItems.length === 0) {
     return (
-      <div>
-        <h2 className="header-text">Continue Watching</h2>
-        <p>No items to continue watching. Start watching some movies or series!</p>
+      <div className="continue-watching-section">
+        <h2 className="section-title">Continue Watching</h2>
+        <div className="continue-items-container">
+          {[...Array(5)].map((_, index) => (
+            <div key={index} className="continue-item-skeleton">
+              <div className="skeleton-poster"></div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 
+  // If no items to continue watching, don't show the section
+  if (continueItems.length === 0) {
+    return null;
+  }
+
   return (
-    <div>
-      <h2 className="header-text">Continue Watching</h2>
-      <div className="listse">
+    <div className="continue-watching-section">
+      <h2 className="section-title">Continue Watching</h2>
+      <div className="continue-items-container">
         {continueItems.map((item) => (
           <div
             key={`${item.type}-${item.id}`}
-            className="movie-barners"
+            className="continue-item"
             onClick={() => handleItemClick(item)}
           >
-            <img
-              src={
-                item.poster || thumbnails[item.id] || "/placeholder-poster.png"
-              }
-              alt={item.title || `${item.type} ${item.id}`}
-              className="imadg-lists"
-            />
-            <div className="continue-overlay">
-              <button 
-                className="remove-btn"
-                onClick={(e) => handleRemoveItem(item, e)}
-                title="Remove from continue watching"
-              >
-                <i className="fa-solid fa-times"></i>
-              </button>
-              {item.type === 'series' && (
-                <div className="episode-info">
-                  S{item.currentSeason}E{item.currentEpisode}
+            <div className="continue-poster">
+              <img
+                src={
+                  item.poster || thumbnails[item.id] || "/placeholder-poster.png"
+                }
+                alt={item.title || `${item.type} ${item.id}`}
+                className="continue-poster-img"
+              />
+              <div className="continue-overlay">
+                <button 
+                  className="remove-btn"
+                  onClick={(e) => handleRemoveItem(item, e)}
+                  title="Remove from continue watching"
+                >
+                  <i className="fa-solid fa-times"></i>
+                </button>
+                <div className="play-btn">
+                  <i className="fa-solid fa-play"></i>
                 </div>
+                {item.type === 'series' && (
+                  <div className="episode-info">
+                    S{item.currentSeason}E{item.currentEpisode}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="continue-info">
+              <h3 className="continue-title">
+                {item.title || `${item.type} ${item.id}`}
+              </h3>
+              {item.type === 'series' && (
+                <p className="continue-episode">
+                  Season {item.currentSeason}, Episode {item.currentEpisode}
+                </p>
               )}
             </div>
           </div>
@@ -131,4 +145,4 @@ function Continue() {
   );
 }
 
-export default Continue;
+export default ContinueWatchingSection;
