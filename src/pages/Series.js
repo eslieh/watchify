@@ -180,7 +180,7 @@ function Series() {
         <iframe
           id="watchdiv"
           className="player"
-          src={`https://www.2embed.cc/embedtv/${id}&s=${season}&e=${episode}`}
+          src={`https://multiembed.mov/?video_id=${id}&tmdb=1&s=${season}&e=${episode}`}
           title={`Series Player S${season}E${episode}`}
           allowFullScreen
         />
