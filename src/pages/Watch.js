@@ -51,7 +51,7 @@ function Watch() {
         <iframe
           id="watchdiv"
           className="player"
-          src={`https://moviesapi.to/movie/${id}`}
+          src={`https://www.2embed.cc/embed/${id}`}
           title="Video Stream"
           allowFullScreen
         />
