@@ -21,7 +21,7 @@ function Subscription() {
       .catch((error) => {
         console.error("Error fetching plans:", error);
       });
-  }, []);
+  }, [userId]);
 
   const openModal = (plan) => {
     setSelectedPlan(plan);
@@ -80,11 +80,6 @@ function Subscription() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const status = params.get("status");
-    const paymentDetails = {
-      planId: params.get("planId"),
-      amount: params.get("amount"),
-      status: status,
-    };
 
     if (status === "success") {
       console.log("success");
@@ -92,7 +87,7 @@ function Subscription() {
       // Payment failure: Redirect user to the failure page
       console.log("success");
     }
-  });
+  }, []);
 
   return (
     <div className="authContainer">

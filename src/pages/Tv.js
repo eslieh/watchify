@@ -6,7 +6,6 @@ function Tv() {
   const { id } = useParams();
   const [series, setSeries] = useState(null);
   const [error, setError] = useState(null);
-  const [isInMyList, setIsInMyList] = useState(false);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [episodes, setEpisodes] = useState([]);
   const navigate = useNavigate();
@@ -80,10 +79,6 @@ function Tv() {
 
     fetchSeasonEpisodes();
   }, [selectedSeason, series, id]);
-
-  const handleCancelClick = () => {
-    setSeries(null);
-  };
 
   const handleWatchEpisodeClick = (episodeNumber) => {
     const seriesTitle = series?.name ? encodeURIComponent(series.name) : '';

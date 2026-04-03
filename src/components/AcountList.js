@@ -6,27 +6,6 @@ function AcountList({user_id}) {
   const [selectedMovieId, setSelectedMovieId] = useState(null); // State for the selected movie ID
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Fetch user's movie list from your backend API
-    const fetchMyList = async () => {
-      const API_URL = `https://fueldash.net/watchify/userdata/getmylist.php?user_id=${user_id}`; // Replace with your backend URL
-
-      try {
-        const response = await fetch(API_URL);
-        if (!response.ok) {
-          throw new Error(`Backend API Error: ${response.statusText}`);
-        }
-        const data = await response.json();
-        setMyListMovies(data); // Assume data is an array of movie objects
-      } catch (error) {
-        setError(error.message); // Handle errors
-        console.error("Error fetching My List:", error);
-      }
-    };
-
-    fetchMyList();
-  }, []);
-
   const handleMovieClick = (id) => {
     setSelectedMovieId(id); // Set the selected movie ID
   };
